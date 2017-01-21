@@ -1,0 +1,10 @@
+---
+
+applications:
+
+- name : iotspacedashboard
+  instances : 1
+  memory : 256M
+  
+services:
+- Internet of Things Platform-y4
