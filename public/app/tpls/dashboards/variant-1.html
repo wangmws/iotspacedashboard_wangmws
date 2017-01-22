@@ -288,7 +288,7 @@
 					motionCount++;
 			}
 
-			jQuery("#presence_avg")[0].textContent = motionCount / chart_data.length * 100 + "%";
+			jQuery("#presence_avg")[0].textContent = Math.round(motionCount / chart_data.length * 100 * 100)/100 + "%";
 			
 		}
 		
