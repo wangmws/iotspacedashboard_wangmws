@@ -1,7 +1,6 @@
 module.exports = {
   HomeWeatherQuery: function(limit,callback) {
       var ibmdb = require('ibm_db');
-      var clone = require('clone');
       var ret ;
 
       if (process.env.VCAP_SERVICES) {
