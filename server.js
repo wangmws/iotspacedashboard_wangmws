@@ -3,6 +3,7 @@ var app = express();
 var server = require("http").Server(app);
 var io = require("socket.io")(server);
 var iotf = require('ibmiotf');
+var db = require("./routes/db.js");
 var appConfig;
 
 // cfenv provides access to your Cloud Foundry environment
@@ -31,7 +32,6 @@ if (process.env.VCAP_SERVICES) {
     serverHost = 'localhost';
 }
 
-
 app.use(express.static(__dirname + '/public'));
 app.use('/scripts', express.static(__dirname + '/node_modules/'));
 
@@ -39,7 +39,7 @@ var appClient = new iotf.IotfApplication(appConfig);
 console.log(appConfig);
 
 var sensorObj = {};
-var sensorObj_array = new Array();
+
 
 var recordCounter = 0;
 server.listen(serverPort, serverHost, function() {
@@ -61,27 +61,13 @@ server.listen(serverPort, serverHost, function() {
             
             try{
                 sensorObj = JSON.parse(payload);
+                //console.log(sensorObj);
                 
-                //spread out the counter recording
-                if(recordCounter == 0){
-                    if(sensorObj_array.length < 100)
-                    {
-                        sensorObj_array.push(sensorObj);
-                        console.log(sensorObj_array.length);
-                    } else {
-                        sensorObj_array.shift();
-                        sensorObj_array.push(sensorObj);
-                        console.log(sensorObj_array.length);
-                    }
-                }
             } catch(err){
                 console.log(err);
             }
  
-            recordCounter++;
-            //reset counter
-            if(recordCounter == 100)
-                recordCounter = 0;
+            
 
             /*
             var roomSensor = {};
@@ -99,9 +85,14 @@ server.listen(serverPort, serverHost, function() {
     });
 });
 
+
 //transfer one time
 io.on("connection", function (socket) {
-    socket.emit("sensorObj_array", sensorObj_array); 
+   
+    db.HomeWeatherQuery(100,function(result){
+        console.log(result);
+        socket.emit("sensorObj_array", result.reverse()); 
+    });
 });
 
 //continous transfer

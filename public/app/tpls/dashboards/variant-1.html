@@ -145,6 +145,7 @@
 		
 		var socket_array = io.connect();
 		socket_array.on("sensorObj_array", function(sensorObj_array) { 
+			console.log("sensorObj_array");
 			console.log(sensorObj_array);
 			if(Array.isArray(sensorObj_array)){
 
@@ -154,18 +155,18 @@
 				{	
 					//Update light chart
 					var tempJson = JSON.parse(JSON.stringify(sensorObj_array[i]));
-					var timestamp = tempJson.ts.slice(11,18);
-					realtime_network_stats.push({ time: timestamp, x1: tempJson.d.Light });
+					var timestamp = tempJson.PAYLOAD_TS.slice(11,18);
+					realtime_network_stats.push({ time: timestamp, x1: parseInt(tempJson.PAYLOAD_D_LIGHT) });
 					if (i != 0)
 						sensor_counter++;
 
 					var motion = 0;
-					if(tempJson.d.Motion == 1)
+					if(tempJson.PAYLOAD_D_MOTION == 1)
 						motion = 100;
 
-					if(!isNaN(tempJson.d.Temperature)){
-						chart_data.push({time: timestamp, Temperature : tempJson.d.Temperature, 
-								Humidity : tempJson.d.Humidity, Presence : motion });
+					if(!isNaN(tempJson.PAYLOAD_D_TEMPERATURE)){
+						chart_data.push({time: timestamp, Temperature : tempJson.PAYLOAD_D_TEMPERATURE, 
+								Humidity : tempJson.PAYLOAD_D_HUMIDITY, Presence : motion });
 					}
 					//{ year: 1950, europe: 546, americas: 332, africa: 227 }
 					sensor_counter++;
@@ -182,6 +183,7 @@
 			realtime_network_stats.push({ id: i, x1: between(rns_values[0], rns_values[1])});
 		}
 		*/
+
 		
 		$("#realtime-network-stats").dxChart({
 			commonSeriesSettings: {
@@ -245,14 +247,14 @@
 			}
 		});
 		
-		setInterval(function(){ networkRealtimeChartTick(); }, 60000);
+		setInterval(function(){ networkRealtimeChartTick(); }, 600000);
 		setInterval(function(){ networkRealtimeGaugeTick(); }, 2000);
 		setInterval(function(){ networkRealtimeMBupdate(); }, 2000);
 		setInterval(function(){ TemperatureGaugeUpdate(); }, 2000);
 		setInterval(function(){ HumidityGaugeUpdate(); }, 2000);
 		setInterval(function(){ LightGaugeUpdate(); }, 2000);
 		setInterval(function(){ MotionTextUpdate(); }, 2000);
-		setInterval(function(){ bar3ChartUpdate(); }, 60000);
+		setInterval(function(){ bar3ChartUpdate(); }, 600000);
 		setInterval(function(){ presence_avgUpdate(); }, 2000);
 
 		function TemperatureGaugeUpdate(){
@@ -276,20 +278,22 @@
 		}
 
 		function presence_avgUpdate(){
-			var chart_data = $("#bar-3").dxChart('instance').option('dataSource');
-			var counter = 0;
-			var motionCount = 0;
+			if(typeof $("#bar-3").dxChart('instance').option('dataSource') !== 'undefined'){
+				var chart_data = $("#bar-3").dxChart('instance').option('dataSource');
+				var counter = 0;
+				var motionCount = 0;
 
-			//console.log(chart_data[0].Presence);
+				//console.log(chart_data[0].Presence);
 
-			for(counter=0; counter< chart_data.length; counter++){
-				//console.log(chart_data[counter].Presence);
-				if(chart_data[counter].Presence == 100)
-					motionCount++;
-			}
-
-			jQuery("#presence_avg")[0].textContent = Math.round(motionCount / chart_data.length * 100 * 100)/100 + "%";
 			
+				for(counter=0; counter< chart_data.length; counter++){
+					//console.log(chart_data[counter].Presence);
+					if(chart_data[counter].Presence == 100)
+						motionCount++;
+				}
+
+				jQuery("#presence_avg")[0].textContent = Math.round(motionCount / chart_data.length * 100 * 100)/100 + "%";
+			}
 		}
 		
 		

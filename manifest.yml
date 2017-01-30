@@ -8,3 +8,5 @@ applications:
   
 services:
 - Internet of Things Platform-y4
+- Dashdb_IOTWMW
+
