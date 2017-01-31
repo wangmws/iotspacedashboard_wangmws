@@ -1,5 +1,5 @@
 module.exports = {
-  HomeWeatherQuery: function(limit,callback) {
+  HomeWeatherQuery: function(hours, callback) {
       var ibmdb = require('ibm_db');
       var ret ;
 
@@ -21,13 +21,13 @@ module.exports = {
 
         ibmdb.open(connString,function (err,conn) {
             if (err) return console.log(err);
-            
-            conn.query('select * from homeweatherdata_0 order by cast(payload_ts as timestamp) DESC LIMIT ' + limit, function (err, data) {
+            var offset_hours = (parseInt(hours) - 8); //off +8 due to US Timezone
+            conn.query('select * from homeweatherdata_0 where (cast(payload_ts as timestamp) >= CURRENT_TIMESTAMP - ' + offset_hours  + ' HOUR) order by cast(payload_ts as timestamp) ASC', function (err, data) {
                 if (err) {
                     console.log(err);
                     return callback(err);
                 } else {
-                    console.log(typeof data);
+                    //console.log(typeof data);
                    return callback(data);
                 }
 

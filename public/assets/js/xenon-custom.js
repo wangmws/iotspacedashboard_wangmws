@@ -27,7 +27,7 @@ var public_vars = public_vars || {};
 		public_vars.$mainFooter           = public_vars.$body.find('footer.main-footer');
 
 		public_vars.$userInfoMenuHor      = public_vars.$body.find('.navbar.horizontal-menu');
-		public_vars.$userInfoMenu         = public_vars.$body.find('nav.navbar.user-info-navbar');
+		//public_vars.$userInfoMenu         = public_vars.$body.find('nav.navbar.user-info-navbar');
 
 		public_vars.$settingsPane         = public_vars.$body.find('.settings-pane');
 		public_vars.$settingsPaneIn       = public_vars.$settingsPane.find('.settings-pane-inner');

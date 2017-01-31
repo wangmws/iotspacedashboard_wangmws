@@ -89,9 +89,8 @@ server.listen(serverPort, serverHost, function() {
 //transfer one time
 io.on("connection", function (socket) {
    
-    db.HomeWeatherQuery(100,function(result){
-        console.log(result);
-        socket.emit("sensorObj_array", result.reverse()); 
+    db.HomeWeatherQuery(24, function(result){
+        socket.emit("sensorObj_array", result); 
     });
 });
 
