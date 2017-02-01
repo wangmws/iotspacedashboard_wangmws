@@ -788,8 +788,64 @@
 			</div>
 			
 		</div>
+		<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Room Occupancy Weekly Chart</h3>
+					<div class="panel-options">
+						<a href="" data-toggle="panel">
+							<span class="collapse-icon">&ndash;</span>
+							<span class="expand-icon">+</span>
+						</a>
+						<a href="" data-toggle="remove">
+							&times;
+						</a>
+					</div>
+				</div>
+				<div class="panel-body">	
+				<script type="text/javascript">
+					jQuery(document).ready(function($)
+					{
+						if( ! $.isFunction($.fn.dxChart))
+							return;
+							
+						var dataSource = [
+							{ day: "Mon", occ: .83, book: 1},
+							{ day: "Tue", occ: .24, book: .85},
+							{ day: "Wed", occ: .1, book: .72},
+							{ day: "Fri", occ: .76, book: .65},
+							{ day: "Sat", occ: .39, book: .12},
+							{ day: "Sun", occ: .15, book: .01}
+						];
+						
+						$("#bar-2").dxChart({
+							equalBarWidth: false,
+							dataSource: dataSource,
+							commonSeriesSettings: {
+								argumentField: "day",
+								type: "bar"
+							},
+							series: [
+								{ valueField: "occ", name: "Occupied", color: "#0e62c7" },
+								{ valueField: "book", name: "Room Booked", color: "#8dc63f" }
+							],
+							legend: {
+								verticalAlignment: "bottom",
+								horizontalAlignment: "center"
+							},
+							valueAxis:{
+								label: {
+									format: "percent"
+								}
+							}
+						});
+					});
+				</script>
+				<div id="bar-2" style="height: 400px; width: 100%;"></div>
+			</div>
+		</div>
 		
 	</div>
+	
 </div>
 
 
