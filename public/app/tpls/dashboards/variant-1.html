@@ -553,17 +553,18 @@
 		dataSource: getVisits(),
 		argumentField: 'PAYLOAD_TS',
 		valueField: 'PAYLOAD_D_TEMPERATURE',
-		type: 'spline',
+		type: 'splinearea',
 		showMinMax: true,
 		lineColor: '#40bbea',
 		minColor: '#4fcdfc',
-		maxColor: '#d5080f'
+		maxColor: '#d5080f',
+		showFirstLast: true
 	},
 	humid_day_chart = {
 		dataSource: getBounceRate(),
 		argumentField: 'PAYLOAD_TS',
 		valueField: 'PAYLOAD_D_HUMIDITY',
-		type: 'spline',
+		type: 'splinearea',
 		//lineWidth: 3,
 		lineColor: '#8dc63f',
 		minColor: '#4fcdfc',
