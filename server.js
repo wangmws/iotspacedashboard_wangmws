@@ -61,7 +61,8 @@ server.listen(serverPort, serverHost, function() {
             
             try{
                 sensorObj = JSON.parse(payload);
-                //console.log(sensorObj);
+                io.emit("sensorObj", sensorObj);
+                console.log(sensorObj);
                 
             } catch(err){
                 console.log(err);
@@ -95,15 +96,8 @@ io.on("connection", function (socket) {
 });
 
 //continous transfer
-io.on("connection", function (socket) {
-     // to make things interesting, have it send every second 
-     
-     var interval = setInterval(function () { 
-            socket.emit("sensorObj", sensorObj); 
-        }, 3000); 
-            socket.on("disconnect", function () { 
-             clearInterval(interval); 
-        }); 
+io.on("connection", function () {
+
 });
 
 
