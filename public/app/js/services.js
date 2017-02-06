@@ -83,6 +83,7 @@ angular.module('xenon.services', []).
 
 		this.prepareSidebarMenu = function()
 		{
+			var iot  = this.addItem('IOT Dashboard', 		'/app/iot', 					'linecons-note');
 			var dashboard    = this.addItem('Dashboard', 		'/app/dashboard', 			'linecons-cog');
 			var layouts      = this.addItem('Layout & Skins',	'/app/layout-and-skins',	'linecons-desktop');
 			var ui_elements  = this.addItem('UI Elements', 		'/app/ui', 					'linecons-note');
@@ -94,9 +95,12 @@ angular.module('xenon.services', []).
 			var charts  	 = this.addItem('Charts', 			'/app/charts', 				'linecons-globe');
 			var menu_lvls  	 = this.addItem('Menu Levels', 		'', 						'linecons-cloud');
 
+				// Subitems of IOT Dashboard
+				iot.addItem('Room Sensor', 	'-/dashboard-room'); // "-/" will append parents link
+				iot.addItem('ModCam', 	'-/dashboard-modcam'); // "-/" will append parents link
 
 				// Subitems of Dashboard
-				dashboard.addItem('Home Weather', 	'-/variant-1'); // "-/" will append parents link
+				dashboard.addItem('Dashboard 1', 	'-/variant-1'); // "-/" will append parents link
 				dashboard.addItem('Dashboard 2', 	'-/variant-2');
 				dashboard.addItem('Dashboard 3', 	'-/variant-3');
 				dashboard.addItem('Dashboard 4', 	'-/variant-4');
@@ -213,12 +217,16 @@ angular.module('xenon.services', []).
 
 		this.prepareHorizontalMenu = function()
 		{
+			var iot  = this.addItem('IOT Dashboard', 		'/app/iot', 					'linecons-note');
 			var dashboard    = this.addItem('Dashboard', 		'/app/dashboard', 			'linecons-cog');
 			var layouts      = this.addItem('Layout',			'/app/layout-and-skins',	'linecons-desktop');
 			var ui_elements  = this.addItem('UI Elements', 		'/app/ui', 					'linecons-note');
 			var forms  	 	 = this.addItem('Forms', 			'/app/forms', 				'linecons-params');
 			var other  	 	 = this.addItem('Other', 			'/app/extra', 				'linecons-beaker');
 
+				// Subitems of IOT Dashboard
+				iot.addItem('Room Sensor', 	'-/dashboard-room'); // "-/" will append parents link
+				iot.addItem('ModCam', 	'-/dashboard-modcam'); // "-/" will append parents link
 
 				// Subitems of Dashboard
 				dashboard.addItem('Dashboard 1', 	'-/variant-1'); // "-/" will append parents link

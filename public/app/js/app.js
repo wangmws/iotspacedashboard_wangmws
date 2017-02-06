@@ -31,7 +31,7 @@ app.run(function()
 
 app.config(function($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, ASSETS){
 
-	$urlRouterProvider.otherwise('/app/dashboard-variant-1');
+	$urlRouterProvider.otherwise('/app/iot-dashboard-room');
 
 	$stateProvider.
 		// Main Layout Structure
@@ -44,6 +44,42 @@ app.config(function($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, ASS
 				$rootScope.isLightLoginPage   = false;
 				$rootScope.isLockscreenPage   = false;
 				$rootScope.isMainPage         = true;
+			}
+		}).
+
+		//IOT Dashboards
+		state('app.iot-dashboard-room', {
+			url: '/iot-dashboard-room',
+			templateUrl: appHelper.templatePath('iot/dashboard-room'),
+			resolve: {
+				resources: function($ocLazyLoad){
+					return $ocLazyLoad.load([
+						ASSETS.charts.dxGlobalize,
+						ASSETS.extra.toastr,
+					]);
+				},
+				dxCharts: function($ocLazyLoad){
+					return $ocLazyLoad.load([
+						ASSETS.charts.dxCharts,
+					]);
+				},
+			}
+		}).
+		state('app.iot-dashboard-modcam', {
+			url: '/iot-dashboard-modcam',
+			templateUrl: appHelper.templatePath('iot/dashboard-modcam'),
+			resolve: {
+				resources: function($ocLazyLoad){
+					return $ocLazyLoad.load([
+						ASSETS.charts.dxGlobalize,
+						ASSETS.extra.toastr,
+					]);
+				},
+				dxCharts: function($ocLazyLoad){
+					return $ocLazyLoad.load([
+						ASSETS.charts.dxCharts,
+					]);
+				},
 			}
 		}).
 

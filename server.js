@@ -62,7 +62,7 @@ server.listen(serverPort, serverHost, function() {
             try{
                 sensorObj = JSON.parse(payload);
                 io.emit("sensorObj", sensorObj);
-                console.log(sensorObj);
+                //console.log(sensorObj);
                 
             } catch(err){
                 console.log(err);

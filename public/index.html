@@ -19,8 +19,12 @@
 	<link rel="stylesheet" href="assets/css/xenon-components.css">
 	<link rel="stylesheet" href="assets/css/xenon-skins.css">
 	<link rel="stylesheet" href="assets/css/custom.css">
+	<link href="assets/css/normalize.css" rel="stylesheet" type="text/css"/>
+	<link href="assets/css/datepicker.css" rel="stylesheet" type="text/css"/>
 
-	<script src="assets/js/jquery-1.11.1.min.js"></script>
+
+	<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  	<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script>
 	var appHelper = {
 		// Vars (paths without trailing slash)
@@ -82,10 +86,13 @@
 	<script src="app/js/factory.js"></script>
 	<script src="app/js/services.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
-	<script src="/scripts/canvas-gauges/gauge.min.js"></script>
-
+	
 	<!-- JavaScripts initializations and stuff -->
 	<script src="app/js/xenon-custom.js"></script>
+
+	<!-- Addtional Stuff -->
+	<script src="/scripts/canvas-gauges/gauge.min.js"></script>
+	<script src="app/js/iothelper.js"></script>
 
 </body>
 </html>

@@ -14,7 +14,6 @@
 		</ol>
 	</div>
 </div>
-<script src="/scripts/canvas-gauges/gauge.min.js"></script>
 <script type="text/javascript">
 	jQuery(document).ready(function($)
 	{
@@ -24,87 +23,23 @@
 </script>
 
 <script type="text/javascript">
-
-	var types = ["spline", "stackedSpline", "fullStackedSpline"];
-	
-	jQuery(document).ready(function($)
-	{
-		if( ! $.isFunction($.fn.dxChart))
-			return;
-		/*	
-		var dataSource = [
-			{ year: 2040, europe: 680, americas: 1178, africa: 1665 },
-			{ year: 2050, europe: 650, americas: 1231, africa: 1937 }
-		];
-		*/
-		$("#bar-3").dxChart({
-			commonSeriesSettings: {
-				type: types[0],
-				argumentField: "time"
-			},
-			series: [
-				{ valueField: "Temperature", name: "Temperature", color: "#40bbea" },
-				{ valueField: "Humidity", name: "Humidity", color: "#8dc63f" },
-				{ valueField: "Presence", name: "Presence", color: "#cc3f44" }
-			],
-			argumentAxis:{
-				grid:{
-					visible: true
-				}
-			},
-			tooltip:{
-				enabled: true
-			},
-			title: "Temperature, Humidity, Presence Trends",
-			legend: {
-				verticalAlignment: "bottom",
-				horizontalAlignment: "center"
-			},
-			commonPaneSettings: {
-				border:{
-					visible: true,
-					right: false
-				}	   
-			}
-		});
-	});
-</script>
-
-<script type="text/javascript">
 	var sample_notification;
 
 	var sensorObj_current;
 	var sensor_counter = 0;
-	
-	//get current sensor reading
-	
-	var sensorlight_current = 0.0;
-	var sensorTemperature_current = 0.0;
-	var sensorHumidity_current = 0.0;
-	var sensorMotion_current = 0;
-	var timestamp_current;
-
-	/* Test HTTP Get
-	$.get('https://cors-anywhere.herokuapp.com/http://iotwmw.mybluemix.net/test',{x1 : "10"}).done(function(data){
-		console.log(data);
-	});
-	*/
 
 	var socket_current = io.connect();
 	socket_current.on("sensorObj", function(sensorObj) { 
 		sensorObj_current = sensorObj;
-		sensorlight_current = sensorObj.d.Light;
-
-		if(!isNaN(sensorObj.d.Temperature))
-			sensorTemperature_current = sensorObj.d.Temperature;
-
-		if(!isNaN(sensorObj.d.Humidity))
-			sensorHumidity_current = sensorObj.d.Humidity;
-
-		sensorMotion_current = sensorObj.d.Motion;
-		timestamp_current = sensorObj.ts.slice(11,18);
 	});
 
+	//get current sensor reading
+	
+	var sensorlight_current = 0.0;
+	var socket_current = io.connect();
+	socket_current.on("sensorObj", function(sensorObj) { 
+		sensorlight_current = sensorObj.d.Light
+	});
 	
 		setTimeout(function()
 		{	
@@ -130,7 +65,7 @@
 				"hideMethod": "fadeOut"
 			};
 	
-			toastr.info("Enjoy the Dashboard.", "Welcome to Shawn Dashboard", opts);
+			toastr.info("Enjoy the varieties of layouts, UI features and flexibility of clean coding.", "Welcome to Xenon Admin Theme", opts);
 		}, 3800);
 		
 		if( ! $.isFunction($.fn.dxChart))
@@ -139,6 +74,290 @@
 		// Charts
 		var xenonPalette = ['#68b828','#7c38bc','#0e62c7','#fcd036','#4fcdfc','#00b19d','#ff6264','#f7aa47'];
 		
+		// Pageviews Visitors Chart
+		var i = 0,
+			line_chart_data_source = [
+			{ id: ++i, part1: 4, part2: 2 },
+			{ id: ++i, part1: 5, part2: 3 },
+			{ id: ++i, part1: 5, part2: 3 },
+			{ id: ++i, part1: 4, part2: 2 },
+			{ id: ++i, part1: 3, part2: 1 },
+			{ id: ++i, part1: 3, part2: 2 },
+			{ id: ++i, part1: 5, part2: 3 },
+			{ id: ++i, part1: 7, part2: 4 },
+			{ id: ++i, part1: 9, part2: 5 },
+			{ id: ++i, part1: 7, part2: 4 },
+			{ id: ++i, part1: 7, part2: 3 },
+			{ id: ++i, part1: 11, part2: 6 },
+			{ id: ++i, part1: 10, part2: 8 },
+			{ id: ++i, part1: 9, part2: 7 },
+			{ id: ++i, part1: 8, part2: 7 },
+			{ id: ++i, part1: 8, part2: 7 },
+			{ id: ++i, part1: 8, part2: 7 },
+			{ id: ++i, part1: 8, part2: 6 },
+			{ id: ++i, part1: 15, part2: 5 },
+			{ id: ++i, part1: 10, part2: 5 },
+			{ id: ++i, part1: 9, part2: 6 },
+			{ id: ++i, part1: 9, part2: 3 },
+			{ id: ++i, part1: 8, part2: 5 },
+			{ id: ++i, part1: 8, part2: 4 },
+			{ id: ++i, part1: 9, part2: 5 },
+			{ id: ++i, part1: 8, part2: 6 },
+			{ id: ++i, part1: 8, part2: 5 },
+			{ id: ++i, part1: 7, part2: 6 },
+			{ id: ++i, part1: 7, part2: 5 },
+			{ id: ++i, part1: 6, part2: 5 },
+			{ id: ++i, part1: 7, part2: 6 },
+			{ id: ++i, part1: 7, part2: 5 },
+			{ id: ++i, part1: 8, part2: 5 },
+			{ id: ++i, part1: 6, part2: 5 },
+			{ id: ++i, part1: 5, part2: 4 },
+			{ id: ++i, part1: 5, part2: 3 },
+			{ id: ++i, part1: 16, part2: 13 },
+		];
+		
+		$("#pageviews-visitors-chart").dxChart({
+			dataSource: line_chart_data_source,
+			commonSeriesSettings: {
+				argumentField: "id",
+				point: { visible: true, size: 5, hoverStyle: {size: 7, border: 0, color: 'inherit'} },
+				line: {width: 1, hoverStyle: {width: 1}}
+			},
+			series: [
+				{ valueField: "part1", name: "Pageviews", color: "#68b828" },
+				{ valueField: "part2", name: "Visitors", color: "#eeeeee" },
+			],
+			legend: {
+				position: 'inside',
+				paddingLeftRight: 5
+			},
+			commonAxisSettings: {
+				label: {
+					visible: false
+				},
+				grid: {
+					visible: true,
+					color: '#f9f9f9'
+				}
+			},
+			valueAxis: {
+				max: 25
+			},
+			argumentAxis: {
+		        valueMarginsEnabled: false
+		    },
+		});
+		
+		
+		
+		// Server Uptime Chart
+		var bar1_data_source = [
+			{ year: 1, 	europe: 10, americas: 0, africa: 50 },
+			{ year: 2, 	europe: 20, americas: 5, africa: 15 },
+			{ year: 3, 	europe: 30, americas: 10, africa: 15 },
+			{ year: 4, 	europe: 40, americas: 15, africa: 30 },
+			{ year: 5, 	europe: 30, americas: 10, africa: 20 },
+			{ year: 6, 	europe: 20, americas: 5,  africa: 10 },
+			{ year: 7, 	europe: 10, americas: 15, africa: 0 },
+			{ year: 8, 	europe: 20, americas: 25, africa: 8 },
+			{ year: 9, 	europe: 30, americas: 35, africa: 16 },
+			{ year: 10,	europe: 40, americas: 45, africa: 24 },
+			{ year: 11,	europe: 50, americas: 40, africa: 32 },
+		];
+		
+		$("#server-uptime-chart").dxChart({
+			dataSource: [
+				{id: ++i, 	sales: 1},
+				{id: ++i, 	sales: 2},
+				{id: ++i, 	sales: 3},
+				{id: ++i, 	sales: 4},
+				{id: ++i, 	sales: 5},
+				{id: ++i, 	sales: 4},
+				{id: ++i, 	sales: 5},
+				{id: ++i, 	sales: 6},
+				{id: ++i, 	sales: 7},
+				{id: ++i, 	sales: 6},
+				{id: ++i, 	sales: 5},
+				{id: ++i, 	sales: 4},
+				{id: ++i, 	sales: 5},
+				{id: ++i, 	sales: 4},
+				{id: ++i, 	sales: 4},
+				{id: ++i, 	sales: 3},
+				{id: ++i, 	sales: 4},
+			],
+		 
+			series: {
+				argumentField: "id",
+				valueField: "sales",
+				name: "Sales",
+				type: "bar",
+				color: '#7c38bc'
+			},
+			commonAxisSettings: {
+				label: {
+					visible: false
+				},
+				grid: {
+					visible: false
+				}
+			},
+			legend: {
+				visible: false
+			},
+			argumentAxis: {
+		        valueMarginsEnabled: true
+		    },
+			valueAxis: {
+				max: 12
+			},
+			equalBarWidth: {
+				width: 11
+			}
+		});
+		
+		
+		
+		// Average Sales Chart
+		var doughnut1_data_source = [
+			{region: "Asia", val: 4119626293},
+			{region: "Africa", val: 1012956064},
+			{region: "Northern America", val: 344124520},
+			{region: "Latin America and the Caribbean", val: 590946440},
+			{region: "Europe", val: 727082222},
+			{region: "Oceania", val: 35104756},
+			{region: "Oceania 1", val: 727082222},
+			{region: "Oceania 3", val: 727082222},
+			{region: "Oceania 4", val: 727082222},
+			{region: "Oceania 5", val: 727082222},
+		], timer;
+		
+		$("#sales-avg-chart div").dxPieChart({
+			dataSource: doughnut1_data_source,
+			tooltip: {
+				enabled: false,
+			  	format:"millions",
+				customizeText: function() { 
+					return this.argumentText + "<br/>" + this.valueText;
+				}
+			},
+			size: {
+				height: 90
+			},
+			legend: {
+				visible: false
+			},  
+			series: [{
+				type: "doughnut",
+				argumentField: "region"
+			}],
+			palette: ['#5e9b4c', '#6ca959', '#b9f5a6'],
+		});
+		
+		
+		
+		// Pageview Stats
+		$('#pageviews-stats').dxBarGauge({
+			startValue: -50,
+			endValue: 50,
+			baseValue: 0,
+			values: [-21.3, 14.8, -30.9, 145.2],
+			label: {
+				customizeText: function (arg) {
+					return arg.valueText + '%';
+				}
+			},
+			//palette: 'ocean',
+			palette: ['#68b828','#7c38bc','#0e62c7','#fcd036','#4fcdfc','#00b19d','#ff6264','#f7aa47'],
+			margin : {
+				top: 0
+			}
+		});
+		
+		var firstMonth = {
+			dataSource: getFirstMonthViews(),
+			argumentField: 'month',
+			valueField: '2014',
+			type: 'area',
+			showMinMax: true,
+			lineColor: '#68b828',
+			minColor: '#68b828',
+			maxColor: '#7c38bc',
+			showFirstLast: false,
+		},
+		secondMonth = {
+			dataSource: getSecondMonthViews(),
+			argumentField: 'month',
+			valueField: '2014',
+			type: 'splinearea',
+			lineColor: '#68b828',
+			minColor: '#68b828',
+			maxColor: '#7c38bc',
+			pointSize: 6,
+			showMinMax: true,
+			showFirstLast: false
+		},
+		thirdMonth = {
+			dataSource: getThirdMonthViews(),
+			argumentField: 'month',
+			valueField: '2014',
+			type: 'splinearea',
+			lineColor: '#68b828',
+			minColor: '#68b828',
+			maxColor: '#7c38bc',
+			pointSize: 6,
+			showMinMax: true,
+			showFirstLast: false
+		};
+		
+		function getFirstMonthViews() {
+			return [{ month: 1, 2014: 7341 },
+			{ month: 2, 2014: 16 },
+			{ month: 3, 2014: 7202 },
+			{ month: 4, 2014: 7851 },
+			{ month: 5, 2014: 7481 },
+			{ month: 6, 2014: 6532 },
+			{ month: 7, 2014: 6498 },
+			{ month: 8, 2014: 7191 },
+			{ month: 9, 2014: 7596 },
+			{ month: 10, 2014: 8057 },
+			{ month: 11, 2014: 8373 },
+			{ month: 12, 2014: 8636 }];
+		};
+		
+		function getSecondMonthViews() {
+			return [{ month: 1, 2014: 189742 },
+			{ month: 2, 2014: 181623 },
+			{ month: 3, 2014: 205351 },
+			{ month: 4, 2014: 245625 },
+			{ month: 5, 2014: 261319 },
+			{ month: 6, 2014: 192786 },
+			{ month: 7, 2014: 194752 },
+			{ month: 8, 2014: 207017 },
+			{ month: 9, 2014: 212665 },
+			{ month: 10, 2014: 233580 },
+			{ month: 11, 2014: 231503 },
+			{ month: 12, 2014: 232824 }];
+		};
+		
+		function getThirdMonthViews() {
+			return [{ month: 1, 2014: 398},
+			{ month: 2, 2014: 422},
+			{ month: 3, 2014: 431},
+			{ month: 4, 2014: 481},
+			{ month: 5, 2014: 551},
+			{ month: 6, 2014: 449},
+			{ month: 7, 2014: 442},
+			{ month: 8, 2014: 482},
+			{ month: 9, 2014: 517},
+			{ month: 10, 2014: 566},
+			{ month: 11, 2014: 630},
+			{ month: 12, 2014: 737}];
+		};
+		
+		
+		$('.first-month').dxSparkline(firstMonth);
+		$('.second-month').dxSparkline(secondMonth);
+		$('.third-month').dxSparkline(thirdMonth);
 		
 		
 		// Realtime Network Stats
@@ -151,43 +370,15 @@
 		
 		var socket_array = io.connect();
 		socket_array.on("sensorObj_array", function(sensorObj_array) { 
-			console.log("sensorObj_array");
 			console.log(sensorObj_array);
 			if(Array.isArray(sensorObj_array)){
-
-				var chart_data = new Array();
-				var temp_sum = 0;
-				var humid_sum = 0;
-				
 				for(i=0; i< sensorObj_array.length; i++)
 				{	
-					//Update light chart
 					var tempJson = JSON.parse(JSON.stringify(sensorObj_array[i]));
-					var timestamp = tempJson.PAYLOAD_TS.slice(11,18);
-					realtime_network_stats.push({ time: timestamp, x1: parseInt(tempJson.PAYLOAD_D_LIGHT) });
+					realtime_network_stats.push({ id: i, x1: tempJson.d.Light });
 					if (i != 0)
 						sensor_counter++;
-
-					var motion = 0;
-					if(tempJson.PAYLOAD_D_MOTION == 1)
-						motion = 100;
-
-					if(!isNaN(tempJson.PAYLOAD_D_TEMPERATURE)){
-						chart_data.push({time: timestamp, Temperature : tempJson.PAYLOAD_D_TEMPERATURE, 
-								Humidity : tempJson.PAYLOAD_D_HUMIDITY, Presence : motion });
-					}
-					//{ year: 1950, europe: 546, americas: 332, africa: 227 }
-					sensor_counter++;
-
-					temp_sum += parseFloat(tempJson.PAYLOAD_D_TEMPERATURE);
-					humid_sum += parseFloat(tempJson.PAYLOAD_D_HUMIDITY);
 				}
-				$("#bar-3").dxChart('instance').option('dataSource', chart_data);
-				$('#realtime-network-stats').dxChart('instance').option('dataSource', realtime_network_stats);
-				$('.sparkline_temp').dxSparkline('instance').option('dataSource', sensorObj_array);
-				$('.sparkline_humid').dxSparkline('instance').option('dataSource', sensorObj_array);
-				$('#temp_chart_avg')[0].innerText = Math.round(temp_sum / sensorObj_array.length * 100) / 100 + '\xB0';
-				$('#humid_chart_avg')[0].innerText = Math.round(humid_sum / sensorObj_array.length * 100) / 100 + '%';
 			}
 		
 		});
@@ -198,15 +389,15 @@
 			realtime_network_stats.push({ id: i, x1: between(rns_values[0], rns_values[1])});
 		}
 		*/
-
 		
 		$("#realtime-network-stats").dxChart({
+			dataSource: realtime_network_stats,
 			commonSeriesSettings: {
 				type: "area",
-				argumentField: "time"
+				argumentField: "id"
 			},
 			series: [
-				{ valueField: "x1", name: "LUX", color: '#7c38bc', opacity: .4 },
+				{ valueField: "x1", name: "Packets Sent", color: '#7c38bc', opacity: .4 },
 			],
 			legend: {
 				verticalAlignment: "bottom",
@@ -262,55 +453,39 @@
 			}
 		});
 		
-		setInterval(function(){ networkRealtimeChartTick(); }, 600000);
+		setInterval(function(){  networkRealtimeChartTick(rns_values, rns2_values); }, 1000);
 		setInterval(function(){ networkRealtimeGaugeTick(); }, 2000);
-		setInterval(function(){ networkRealtimeMBupdate(); }, 2000);
-		setInterval(function(){ TemperatureGaugeUpdate(); }, 2000);
-		setInterval(function(){ HumidityGaugeUpdate(); }, 2000);
-		setInterval(function(){ LightGaugeUpdate(); }, 2000);
-		setInterval(function(){ MotionTextUpdate(); }, 2000);
-		setInterval(function(){ bar3ChartUpdate(); }, 600000);
-		setInterval(function(){ presence_avgUpdate(); }, 2000);
-
-		function TemperatureGaugeUpdate(){
-			document.gauges[0].value = sensorTemperature_current;
-			jQuery("#motionText").textContent = 1000;
-		}
-
-		function HumidityGaugeUpdate(){
-			document.gauges[1].value = sensorHumidity_current;
-		}
-
-		function LightGaugeUpdate(){
-			document.gauges[2].value = sensorlight_current;
-		}
+		setInterval(function(){ networkRealtimeMBupdate(); }, 3000);
 		
-		function MotionTextUpdate(){
-			if(sensorMotion_current == 0)
-				jQuery("#motionText")[0].innerText = "Emtpy";
-			else
-				jQuery("#motionText")[0].innerText = "People Around";
-		}
-
-		function presence_avgUpdate(){
-			if(typeof $("#bar-3").dxChart('instance').option('dataSource') !== 'undefined'){
-				var chart_data = $("#bar-3").dxChart('instance').option('dataSource');
-				var counter = 0;
-				var motionCount = 0;
-
-				//console.log(chart_data[0].Presence);
-
-			
-				for(counter=0; counter< chart_data.length; counter++){
-					//console.log(chart_data[counter].Presence);
-					if(chart_data[counter].Presence == 100)
-						motionCount++;
+		
+		
+		// CPU Usage Gauge
+		$("#cpu-usage-gauge").dxCircularGauge({
+			scale: {
+				startValue: 0,
+				endValue: 100,
+				majorTick: {
+					tickInterval: 25
 				}
-
-				jQuery("#presence_avg")[0].textContent = Math.round(motionCount / chart_data.length * 100 * 100)/100 + "%";
+			},
+			rangeContainer: {
+				palette: 'pastel',
+				width: 3,
+				ranges: [
+					{ startValue: 0, endValue: 25, color: "#68b828" },
+					{ startValue: 25, endValue: 50, color: "#68b828" },
+					{ startValue: 50, endValue: 75, color: "#68b828" },
+					{ startValue: 75, endValue: 100, color: "#d5080f" },
+				],
+			},
+			value: between(30, 90),
+			valueIndicator: {
+				offset: 10,
+				color: '#68b828',
+				type: 'rectangleNeedle',
+				spindleSize: 12
 			}
-		}
-		
+		});
 		
 		
 		// Resize charts
@@ -327,28 +502,9 @@
 		
 	});
 	
-	function bar3ChartUpdate()
-	{
-		if(!isNaN(sensorObj_current.d.Temperature)){
-			var chart_data = $("#bar-3").dxChart('instance').option('dataSource');
-			
-			if(chart_data.length >= 100)
-				chart_data.shift();
-			
-			var motion = 0;
-			if(sensorMotion_current == 1)
-				motion = 100;
-			
-		
-			chart_data.push({time: timestamp_current, Temperature : sensorTemperature_current, 
-								Humidity : sensorHumidity_current, Presence : motion });
-
-			$("#bar-3").dxChart('instance').option('dataSource', chart_data);
-		}
-	}
 
 	
-	function networkRealtimeChartTick()
+	function networkRealtimeChartTick(min_max, min_max2)
 	{
 		var $ = jQuery,
 			i = 0;
@@ -360,10 +516,8 @@
 		var count = $('#realtime-network-stats').data('iCount');
 		
 		$('#realtime-network-stats').data('iCount', count + 1);
-		
-		if(chart_data.length >= 100)
-			chart_data.shift();
-		chart_data.push({time: timestamp_current, x1: sensorlight_current });
+		//chart_data.shift();
+		chart_data.push({id: sensor_counter-1, x1: sensorlight_current });
 		sensor_counter++;
 		$('#realtime-network-stats').dxChart('instance').option('dataSource', chart_data);
 	}
@@ -407,234 +561,111 @@
 		
 		return randInt;
 	}
-
-	
 </script>
 
 <div class="row">
 	<div class="col-sm-3">
-		<canvas 
-			id="TemperatureGauge"
-			data-title="Temperature"
-			data-type="radial-gauge"
-			data-width="200"
-			data-height="200"
-			data-units="DegC"
-			data-min-value="10"
-			data-max-value="40"
-			data-major-ticks="10,20,30,40"
-			data-minor-ticks="2"
-			data-stroke-ticks="true"
-			data-highlights='[
-				{"from": 10, "to": 20, "color": "rgba(200, 50, 50, .75)"},
-				{"from": 35, "to": 40, "color": "rgba(200, 50, 50, .75)"}
-			]'
-			data-color-plate="#fff"
-			data-border-shadow-width="0"
-			data-borders="false"
-			data-needle-type="arrow"
-			data-needle-width="2"
-			data-needle-circle-size="7"
-			data-needle-circle-outer="true"
-			data-needle-circle-inner="false"
-			data-animation-duration="1500"
-			data-animation-rule="cycle"
-		></canvas>
 		
-		
-	</div>
-	<div class="col-sm-3">
-		<canvas 
-			id="HumidityGauge"
-			data-title="Humidity"
-			data-type="radial-gauge"
-			data-width="200"
-			data-height="200"
-			data-units="%"
-			data-min-value="0"
-			data-max-value="100"
-			data-major-ticks="0,25,50,75,100"
-			data-minor-ticks="2"
-			data-stroke-ticks="true"
-			data-highlights='[
-				{"from": 0, "to": 20, "color": "rgba(200, 50, 50, .75)"},
-				{"from": 20, "to": 40, "color": "yellow"},
-				{"from": 90, "to": 100, "color": "yellow"}
-			]'
-			data-color-plate="#fff"
-			data-border-shadow-width="0"
-			data-borders="false"
-			data-needle-type="arrow"
-			data-needle-width="2"
-			data-needle-circle-size="7"
-			data-needle-circle-outer="true"
-			data-needle-circle-inner="false"
-			data-animation-duration="1500"
-			data-animation-rule="cycle"
-		></canvas>
-		
-		
-	</div>
-	<div class="col-sm-3">
-		<canvas 
-			id="LightGauge"
-			data-title="Light"
-			data-type="radial-gauge"
-			data-width="200"
-			data-height="200"
-			data-units="LUX"
-			data-min-value="0"
-			data-max-value="2000"
-			data-major-ticks="0,500,1000,1500,2000"
-			data-minor-ticks="2"
-			data-stroke-ticks="true"
-			data-highlights='[
-				{"from": 0, "to": 30, "color": "yellow"},
-				{"from": 1000, "to": 1500, "color": "yellow"},
-				{"from": 1500, "to": 2000, "color": "rgba(200, 50, 50, .75)"}
-			]'
-			data-color-plate="#fff"
-			data-border-shadow-width="0"
-			data-borders="false"
-			data-needle-type="arrow"
-			data-needle-width="2"
-			data-needle-circle-size="7"
-			data-needle-circle-outer="true"
-			data-needle-circle-inner="false"
-			data-animation-duration="1500"
-			data-animation-rule="cycle"
-		></canvas>
-		
-		
-	</div>
-	<div class="col-sm-3">
-		<div>&nbsp;</div>
-		<div class="xe-widget xe-counter-block xe-counter-block-blue" >
-			<div class="xe-upper">
-				
-				<div class="xe-icon">
-					<i class="linecons-user"></i>
-				</div>
-				<div class="xe-label">
-					<strong id="motionText" >--</strong>
-					<span>Presence</span>
-				</div>
-				
+		<div class="xe-widget xe-counter" data-count=".num" data-from="0" data-to="99.9" data-suffix="%" data-duration="2">
+			<div class="xe-icon">
+				<i class="linecons-cloud"></i>
 			</div>
-			<div class="xe-lower">
-				<div class="border"></div>
-				
-				<span>Occpancy</span>
-				<strong id="presence_avg">--%</strong>
+			<div class="xe-label">
+				<strong class="num">0.0%</strong>
+				<span>Server uptime</span>
+			</div>
+		</div>
+		
+		<div class="xe-widget xe-counter xe-counter-purple" data-count=".num" data-from="1" data-to="117" data-suffix="k" data-duration="3" data-easing="false">
+			<div class="xe-icon">
+				<i class="linecons-user"></i>
+			</div>
+			<div class="xe-label">
+				<strong class="num">1k</strong>
+				<span>Users Total</span>
+			</div>
+		</div>
+		
+		<div class="xe-widget xe-counter xe-counter-info" data-count=".num" data-from="1000" data-to="2470" data-duration="4" data-easing="true">
+			<div class="xe-icon">
+				<i class="linecons-camera"></i>
+			</div>
+			<div class="xe-label">
+				<strong class="num">1000</strong>
+				<span>New Daily Photos</span>
 			</div>
 		</div>
 		
 	</div>
-	
+	<div class="col-sm-6">
+		
+		<div class="chart-item-bg">
+			<div class="chart-label">
+				<div class="h3 text-secondary text-bold" xe-counter data-count="this" data-from="0.00" data-to="14.85" data-suffix="%" data-duration="1">0.00%</div>
+				<span class="text-medium text-muted">More visitors</span>
+			</div>
+			<div id="pageviews-visitors-chart" style="height: 298px;"></div>
+		</div>
+		
+	</div>
+	<div class="col-sm-3">
+		
+		<div class="chart-item-bg">
+			<div class="chart-label chart-label-small">
+				<div class="h4 text-purple text-bold" xe-counter data-count="this" data-from="0.00" data-to="95.8" data-suffix="%" data-duration="1.5">0.00%</div>
+				<span class="text-small text-upper text-muted">Current Server Uptime</span>
+			</div>
+			<div id="server-uptime-chart" style="height: 134px;"></div>
+		</div>
+		
+		<div class="chart-item-bg">
+			<div class="chart-label chart-label-small">
+				<div class="h4 text-secondary text-bold" xe-counter data-count="this" data-from="0.00" data-to="320.45" data-decimal="," data-duration="2">0</div>
+				<span class="text-small text-upper text-muted">Avg. of Sales</span>
+			</div>
+			<div id="sales-avg-chart" style="height: 134px; position: relative;">
+				<div style="position: absolute; top: 25px; right: 0; left: 40%; bottom: 0"></div>
+			</div>
+		</div>
+		
+	</div>
 </div>
 
 
 <div class="row">
 	<div class="col-sm-6">
-	
-		<div class="panel panel-default">
-			<div class="panel-body">	
-				
-				<div id="bar-3" style="height: 400px; width: 80%;"></div>
+		
+		<div class="chart-item-bg">
+			<div id="pageviews-stats" style="height: 320px; padding: 20px 0;"></div>
+			
+			<div class="chart-entry-view">
+				<div class="chart-entry-label">
+					Pageviews
+				</div>
+				<div class="chart-entry-value">
+					<div class="sparkline first-month"></div>
+				</div>
+			</div>
+			
+			<div class="chart-entry-view">
+				<div class="chart-entry-label">
+					Visitors
+				</div>
+				<div class="chart-entry-value">
+					<div class="sparkline second-month"></div>
+				</div>
+			</div>
+			
+			<div class="chart-entry-view">
+				<div class="chart-entry-label">
+					Converted Sales
+				</div>
+				<div class="chart-entry-value">
+					<div class="sparkline third-month"></div>
+				</div>
 			</div>
 		</div>
-
-<script>
-//{ valueField: "Temperature", name: "Temperature", color: "#40bbea" },
-//{ valueField: "Humidity", name: "Humidity", color: "#8dc63f" },
-
-	// Sparklines
-	var temp_day_chart = {
-		dataSource: getVisits(),
-		argumentField: 'PAYLOAD_TS',
-		valueField: 'PAYLOAD_D_TEMPERATURE',
-		type: 'splinearea',
-		showMinMax: true,
-		lineColor: '#40bbea',
-		minColor: '#4fcdfc',
-		maxColor: '#d5080f',
-		showFirstLast: true
-	},
-	humid_day_chart = {
-		dataSource: getBounceRate(),
-		argumentField: 'PAYLOAD_TS',
-		valueField: 'PAYLOAD_D_HUMIDITY',
-		type: 'splinearea',
-		//lineWidth: 3,
-		lineColor: '#8dc63f',
-		minColor: '#4fcdfc',
-		maxColor: '#d5080f',
-		showMinMax: true,
-		showFirstLast: true
-	};
-
-	function getVisits() {
-			return [{ month: 1, 2010: 77, 2011: 93, 2012: 107 },
-			{ month: 2, 2010: 72, 2011: 101, 2012: 112 },
-			{ month: 3, 2010: 79, 2011: 115, 2012: 123 },
-			{ month: 4, 2010: 82, 2011: 116, 2012: 123 },
-			{ month: 5, 2010: 86, 2011: 124, 2012: 116 },
-			{ month: 6, 2010: 73, 2011: 115, 2012: 102 },
-			{ month: 7, 2010: 73, 2011: 110, 2012: 94 },
-			{ month: 8, 2010: 77, 2011: 117, 2012: 105 },
-			{ month: 9, 2010: 76, 2011: 113, 2012: 113 },
-			{ month: 10, 2010: 81, 2011: 103, 2012: 111 },
-			{ month: 11, 2010: 83, 2011: 110, 2012: 107 },
-			{ month: 12, 2010: 89, 2011: 109, 2012: 110 }];
-		}
-		function getBounceRate() {
-			return [{ month: 1, 2010: 1115, 2011: 1358, 2012: 1661 },
-			{ month: 2, 2010: 1099, 2011: 1375, 2012: 1742 },
-			{ month: 3, 2010: 1114, 2011: 1423, 2012: 1677 },
-			{ month: 4, 2010: 1150, 2011: 1486, 2012: 1650 },
-			{ month: 5, 2010: 1205, 2011: 1511, 2012: 1589 },
-			{ month: 6, 2010: 1235, 2011: 1529, 2012: 1602 },
-			{ month: 7, 2010: 1193, 2011: 1573, 2012: 1593 },
-			{ month: 8, 2010: 1220, 2011: 1765, 2012: 1634 },
-			{ month: 9, 2010: 1272, 2011: 1771, 2012: 1750 },
-			{ month: 10, 2010: 1345, 2011: 1672, 2012: 1745 },
-			{ month: 11, 2010: 1370, 2011: 1741, 2012: 1720 },
-			{ month: 12, 2010: 1392, 2011: 1643, 2012: 1684 }];
-		};
-
-		$('.sparkline_temp').dxSparkline(temp_day_chart);
-		$('.sparkline_humid').dxSparkline(humid_day_chart);
-</script>
-
-		<div class="panel panel-default">
-			<div class="panel-heading">This Daily Analytics</div>
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Type</th>
-						<th width="20%">Avg</th>
-						<th width="50%">Daily Chart</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Temperature</td>
-						<td id="temp_chart_avg">--&deg;</td>
-						<td>
-							<div class="sparkline_temp"></div>
-						</td>
-					</tr>
-					<tr>
-						<td>Humidity</td>
-						<td id="humid_chart_avg">--%</td>
-						<td>
-							<div class="sparkline_humid"></div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-			
+		
 	</div>
 	<div class="col-sm-6">
 		
@@ -648,204 +679,20 @@
 			</div>
 			<div id="realtime-network-stats" style="height: 320px"></div>
 		</div>
-<script>
-	var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
- 	var c_date = new Date();
- 	var c_date_text = "Today , " + c_date.getDate() + ' ' + months[c_date.getMonth()];
- 	$('#current_date')[0].innerText = c_date_text;
-
-</script>
-		<div class="xe-widget xe-weather">
-			<div class="xe-background xe-background-animated">
-				<img src="assets/images/clouds.png" />
-			</div>
-			
-			<div class="xe-current-day">
-				<div class="xe-now">
-					<div class="xe-temperature">
-						<div class="xe-icon">
-							<i class="meteocons-cloud-moon"></i>
-						</div>
-						<div class="xe-label">
-							Now
-							<strong>30&deg;</strong>
-						</div>
-					</div>
-					<div class="xe-location">
-						<h4>Singapore</h4>
-						<time id="current_date"></time>
-					</div>
-				</div>
+		
+		<div class="chart-item-bg">
+			<div class="chart-label">
+				<div id="network-mbs-packets" class="h1 text-secondary text-bold" xe-counter data-count="this" data-from="0.00" data-to="67.35" data-suffix="%" data-duration="1.5">0.00%</div>
+				<span class="text-small text-muted text-upper">CPU Usage</span>
 				
-				<div class="xe-forecast">
-					<ul>
-						<li>
-							<div class="xe-forecast-entry">
-								<time>11:00</time>
-								<div class="xe-icon">
-									<i class="meteocons-sunrise"></i>
-								</div>
-								<strong class="xe-temp">28&deg;</strong>
-							</div>
-						</li>
-						<li>
-							<div class="xe-forecast-entry">
-								<time>12:00</time>
-								<div class="xe-icon">
-									<i class="meteocons-clouds-flash"></i>
-								</div>
-								<strong class="xe-temp">30&deg;</strong>
-							</div>
-						</li>
-						<li>
-							<div class="xe-forecast-entry">
-								<time>13:00</time>
-								<div class="xe-icon">
-									<i class="meteocons-cloud-moon-inv"></i>
-								</div>
-								<strong class="xe-temp">31&deg;</strong>
-							</div>
-						</li>
-						<li>
-							<div class="xe-forecast-entry">
-								<time>14:00</time>
-								<div class="xe-icon">
-									<i class="meteocons-eclipse"></i>
-								</div>
-								<strong class="xe-temp">31&deg;</strong>
-							</div>
-						</li>
-						<li>
-							<div class="xe-forecast-entry">
-								<time>15:00</time>
-								<div class="xe-icon">
-									<i class="meteocons-rain"></i>
-								</div>
-								<strong class="xe-temp">30&deg;</strong>
-							</div>
-						</li>
-						<li>
-							<div class="xe-forecast-entry">
-								<time>16:00</time>
-								<div class="xe-icon">
-									<i class="meteocons-cloud-sun"></i>
-								</div>
-								<strong class="xe-temp">28&deg;</strong>
-							</div>
-						</li>
-					</ul>
-				</div>
+				<p class="text-medium" style="width: 50%; margin-top: 10px">Sentiments two occasional affronting solicitude travelling and one contrasted. Fortune day out married parties.</p>
 			</div>
-			
-			<div class="xe-weekdays">
-				<ul class="list-unstyled">
-					<li>
-						<div class="xe-weekday-forecast">
-							<div class="xe-temp">30&deg;</div>
-							<div class="xe-day">Monday</div>
-							<div class="xe-icon">
-								<i class="meteocons-windy-inv"></i>
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="xe-weekday-forecast">
-							<div class="xe-temp">32&deg;</div>
-							<div class="xe-day">Tuesday</div>
-							<div class="xe-icon">
-								<i class="meteocons-sun"></i>
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="xe-weekday-forecast">
-							<div class="xe-temp">30&deg;</div>
-							<div class="xe-day">Wednesday</div>
-							<div class="xe-icon">
-								<i class="meteocons-na"></i>
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="xe-weekday-forecast">
-							<div class="xe-temp">31&deg;</div>
-							<div class="xe-day">Thursday</div>
-							<div class="xe-icon">
-								<i class="meteocons-windy"></i>
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="xe-weekday-forecast">
-							<div class="xe-temp">30&deg;</div>
-							<div class="xe-day">Friday</div>
-							<div class="xe-icon">
-								<i class="meteocons-sun"></i>
-							</div>
-						</div>
-					</li>
-				</ul>
-			</div>
-			
-		</div>
-		<div class="panel panel-default">
-				<div class="panel-heading">
-					<h3 class="panel-title">Room Occupancy Weekly Chart</h3>
-					<div class="panel-options">
-						<a href="" data-toggle="panel">
-							<span class="collapse-icon">&ndash;</span>
-							<span class="expand-icon">+</span>
-						</a>
-						<a href="" data-toggle="remove">
-							&times;
-						</a>
-					</div>
-				</div>
-				<div class="panel-body">	
-				<script type="text/javascript">
-					jQuery(document).ready(function($)
-					{
-						if( ! $.isFunction($.fn.dxChart))
-							return;
-							
-						var dataSource = [
-							{ day: "Mon", occ: .83, book: 1},
-							{ day: "Tue", occ: .24, book: .85},
-							{ day: "Wed", occ: .1, book: .72},
-							{ day: "Fri", occ: .76, book: .65},
-							{ day: "Sat", occ: .39, book: .12},
-							{ day: "Sun", occ: .15, book: .01}
-						];
-						
-						$("#bar-2").dxChart({
-							equalBarWidth: false,
-							dataSource: dataSource,
-							commonSeriesSettings: {
-								argumentField: "day",
-								type: "bar"
-							},
-							series: [
-								{ valueField: "occ", name: "Occupied", color: "#0e62c7" },
-								{ valueField: "book", name: "Room Booked", color: "#8dc63f" }
-							],
-							legend: {
-								verticalAlignment: "bottom",
-								horizontalAlignment: "center"
-							},
-							valueAxis:{
-								label: {
-									format: "percent"
-								}
-							}
-						});
-					});
-				</script>
-				<div id="bar-2" style="height: 400px; width: 100%;"></div>
+			<div id="other-stats" style="min-height: 183px">
+				<div id="cpu-usage-gauge" style="width: 170px; height: 140px; position: absolute; right: 20px; top: 20px"></div>
 			</div>
 		</div>
 		
 	</div>
-	
 </div>
 
 
