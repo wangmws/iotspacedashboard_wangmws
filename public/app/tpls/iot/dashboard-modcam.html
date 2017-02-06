@@ -22,7 +22,7 @@
 </script>
 
 <script type="text/javascript">
-	var date_input = formattedDateDb(new Date())
+	var current_date_input = formattedDateDb(new Date())
 	//console.log("new date :" + date_input)
 	
 	var all_modcam_data_sources = [];
@@ -31,29 +31,24 @@
 		console.log("incoming date " + idate);
 		var datasource_f_range = new Array();
 		var datasource_m_range = new Array();
-		console.log("idate " + idate);
 		//get female datasource
 
 		
 		$.get('https://cors-anywhere.herokuapp.com/https://iotwmw.mybluemix.net/querysexfcount',{date : idate}).done(function(data){
-			if(Array.isArray(data)){
-				datasource_f_range = datasource_modcam_range(idate, data, "f");
-				//$("#range-chart").dxRangeSelector('instance').option('dataSource', datasource_f_range);
-			} else{
-				datasource_f_range = emptydatasource_modcam_range(idate, "f");
-				//$("#range-chart").dxRangeSelector('instance').option('dataSource', datasource_f_range);
-			}
+			if(!Array.isArray(data))
+					data = [data];
 
-		
+			datasource_f_range = datasource_modcam_range(idate, data, "f");
+			
 			//get male datasource
 			$.get('https://cors-anywhere.herokuapp.com/https://iotwmw.mybluemix.net/querysexmcount',{date : idate}).done(function(data){
-				if(Array.isArray(data)){
-					datasource_m_range = datasource_modcam_range(idate, data, "m");
+				
+				if(!Array.isArray(data))
+					data = [data];
+
+				datasource_m_range = datasource_modcam_range(idate, data, "m");
 					//$("#range-chart").dxRangeSelector('instance').option('dataSource', datasource_f_range);
-				} else{
-					datasource_m_range = emptydatasource_modcam_range(idate, "m");
-					//$("#range-chart").dxRangeSelector('instance').option('dataSource', datasource_f_range);
-				}
+				
 
 				all_modcam_data_sources = [];
 				$.map(datasource_f_range, function(arg, i)
@@ -65,22 +60,26 @@
 					});
 				});
 
+				/*
 				console.log(datasource_f_range);
 				console.log(datasource_m_range);
-				console.log(all_modcam_data_sources);
+				*/
+				//console.log(all_modcam_data_sources);
+				
 				$("#modcam-range-chart").dxRangeSelector('instance').option('dataSource', all_modcam_data_sources);
 
 			});
 
 		});
+	};
 
-
-		
-	}
+	
+	
 	
 </script>
 
 <script type="text/javascript">
+		/*
 		// Let us open a web socket
 		if ("WebSocket" in window)
             {
@@ -110,143 +109,13 @@
                // The browser doesn't support WebSocket
                //alert("WebSocket NOT supported by your Browser!");
             }
+			*/
 
 		setTimeout(function()
 		{	
 		var $ = jQuery;		
 		if( ! $.isFunction($.fn.dxChart))
 			return;
-			
-		var gaugesPalette = ['#8dc63f', '#40bbea', '#ffba00', '#cc3f44'];
-		
-			
-		// Data Sources for all charts
-		var reqs_per_second_data = [
-			{ time: new Date("December 05, 2014 18:00:00"), reqs: 107 },
-			{ time: new Date("December 05, 2014 19:00:00"), reqs: 141 },
-			{ time: new Date("December 05, 2014 20:00:00"), reqs: 118 },
-			{ time: new Date("December 05, 2014 21:00:00"), reqs: 24 },
-			{ time: new Date("December 05, 2014 22:00:00"), reqs: 98 },
-			{ time: new Date("December 05, 2014 23:00:00"), reqs: 171 },
-			{ time: new Date("December 06, 2014 00:00:00"), reqs: 26 },
-			{ time: new Date("December 06, 2014 01:00:00"), reqs: 167 },
-			{ time: new Date("December 06, 2014 02:00:00"), reqs: 124 },
-			{ time: new Date("December 06, 2014 03:00:00"), reqs: 78 },
-			{ time: new Date("December 06, 2014 04:00:00"), reqs: 130 },
-			{ time: new Date("December 06, 2014 05:00:00"), reqs: 120 },
-			{ time: new Date("December 06, 2014 06:00:00"), reqs: 26 },
-			{ time: new Date("December 06, 2014 07:00:00"), reqs: 70 },
-			{ time: new Date("December 06, 2014 08:00:00"), reqs: 108 },
-			{ time: new Date("December 06, 2014 09:00:00"), reqs: 60 },
-			{ time: new Date("December 06, 2014 10:00:00"), reqs: 139 },
-			{ time: new Date("December 06, 2014 11:00:00"), reqs: 145 },
-			{ time: new Date("December 06, 2014 12:00:00"), reqs: 15 },
-			{ time: new Date("December 06, 2014 13:00:00"), reqs: 36 },
-			{ time: new Date("December 06, 2014 14:00:00"), reqs: 73 },
-			{ time: new Date("December 06, 2014 15:00:00"), reqs: 125 },
-			{ time: new Date("December 06, 2014 16:00:00"), reqs: 25 },
-			{ time: new Date("December 06, 2014 17:00:00"), reqs: 122 },
-		];
-		
-			
-		// Requests per second gauge
-		$('#reqs-per-second').dxCircularGauge({
-			scale: {
-				startValue: 0,
-				endValue: 200,
-				majorTick: {
-					tickInterval: 50
-				}
-			},
-			rangeContainer: {
-				palette: 'pastel',
-				width: 3,
-				ranges: [
-					{
-						startValue: 0,
-						endValue: 50,
-						color: gaugesPalette[0]
-					}, {
-						startValue: 50,
-						endValue: 100,
-						color: gaugesPalette[1]
-					}, {
-						startValue: 100,
-						endValue: 150,
-						color: gaugesPalette[2]
-					}, {
-						startValue: 150,
-						endValue: 200,
-						color: gaugesPalette[3]
-					}
-				],
-			},
-			value: 131,
-			valueIndicator: {
-				offset: 10,
-				color: '#2c2e2f',
-				spindleSize: 12
-			}
-		});
-		
-		// Requests per second chart
-		$("#reqs-per-second-chart").dxChart({
-			dataSource: reqs_per_second_data,
-			commonPaneSettings: {
-				border: {
-					visible: true,
-					color: '#f5f5f5'
-				}
-			},
-			commonSeriesSettings: {
-				type: "area",
-				argumentField: "time",
-				border: {
-					color: '#68b828',
-					width: 1,
-					visible: true
-				}
-			},
-			series: [
-				{ valueField: "reqs", name: "Reqs per Second", color: '#68b828', opacity: .5 },
-			],
-			commonAxisSettings: {
-				label: {
-					visible: true
-				},
-				grid: {
-					visible: true,
-					color: '#f5f5f5'
-				}
-			},
-			argumentAxis: {
-				valueMarginsEnabled: false,
-				label: {
-					customizeText: function (arg) {
-						return date('h:i A', arg.value);
-					}
-				},
-			},
-			legend: {
-				visible: false
-			}
-		});
-		
-		
-		
-		// Combine charts for filtering, grouped by time
-		/*
-		var all_data_sources = [];
-		
-		$.map(reqs_per_second_data, function(arg, i)
-		{
-			all_data_sources.push({
-				time: 					arg.time,
-				requestsPerMinute: 		reqs_per_second_data[i].reqs,
-				
-			});
-		});
-		*/
 		
 		// Range Filter
 		$("#modcam-range-chart").dxRangeSelector({
@@ -256,9 +125,8 @@
 			},
 			chart: {
 				series: [
-					//{ argumentField: "time", valueField: "requestsPerMinute", color: '#68b828', opacity: .65 }				]
 					{ argumentField: "time", valueField: "Female", color: "#cc3f44", opacity: .65 },
-					{ argumentField: "time", valueField: "Male", color: "#40bbea", opacity: .65 }				
+					{ argumentField: "time", valueField: "Male", color: "#0e62c7", opacity: .65 }				
 				],
 				valueAxis: {
 					valueType: "numeric"
@@ -273,36 +141,42 @@
 			loadingIndicator: {
 				show: true,
 				text: "Loading..."
-			},/*
+			},
 			selectedRangeChanged: function(e)
 			{
 				
-				var filter = {
-					reqsPerMinuteData: []
-				};
-				
+				//var filter = {
+				//	reqsPerMinuteData: []
+				//};
+				console.log(e);
+				updateAgeChart(current_date_input, e.startValue.getHours(), e.endValue.getHours())
+				updateMoodChart(current_date_input,e.startValue.getHours(), e.endValue.getHours());
+				updateGlassesChart(current_date_input,e.startValue.getHours(), e.endValue.getHours());
+				/*
 				$.map(all_data_sources, function(arg, i)
 				{
+					
+					/*
 					if(date("U", e.startValue) <= date("U", arg.time) && date("U", e.endValue) >= date("U", arg.time))
 					{
 						filter.reqsPerMinuteData.push({
 							time: arg.time,
 							reqs: arg.requestsPerMinute
 						});
-						
 					}
 				});
+				*/
 				
-				$('#reqs-per-second-chart').dxChart('instance').option('dataSource', filter.reqsPerMinuteData);
+				//$('#reqs-per-second-chart').dxChart('instance').option('dataSource', filter.reqsPerMinuteData);
 				
-			},*/
+			},
 			legend: {
 				position: 'inside',
 				paddingLeftRight: 5
 			},
 		});
 
-		updateRangeSource(date_input);
+		updateRangeSource(current_date_input);
 		
 		
 		
@@ -310,7 +184,8 @@
 		$(window).on('xenon.resize', function()
 		{
 			$("#modcam-range-chart").data("dxRangeSelector").render();
-			$("#reqs-per-second-chart").data("dxChart").render();
+			$("#age-bar").data("dxChart").render();
+			$("#bubble-mood-chart").render();
 			
 		});
 	});
@@ -334,33 +209,293 @@
 	</div>
 </div>
 
-<div class="panel panel-default">
-	<div class="panel-heading">
-		Requests per second
-	</div>
-	<div class="panel-body">
+<script type="text/javascript">
+	jQuery(document).ready(function($)
+	{
+		if( ! $.isFunction($.fn.dxChart))
+			return;
+			
+		$("#age-bar").dxChart({
+			equalBarWidth: true,
+			commonSeriesSettings: {
+				argumentField: "range",
+				type: "bar",
+				hoverMode: "allArgumentPoints",
+				selectionMode: "allArgumentPoints",
+				label: {
+					visible: true,
+					showForZeroValues: false,
+					format: {
+						type: "fixedPoint",
+						precision: 1
+					}
+				}
+			},
+			series: [
+				{ valueField: "male", name: "Male", color: "#0e62c7" },
+				{ valueField: "female", name: "Female", color: "#cc3f44" }
+			],
+			legend: {
+				verticalAlignment: "bottom",
+				horizontalAlignment: "center"
+			},
+		});
+
+
+		updateAgeChart(current_date_input,0,23);
+
 		
-		<div class="row">
-			<div class="col-sm-3">
-				<p class="text-medium">View the number of requests completed at the moment and for the selected range within the last day.</p>
-				<div class="super-large text-secondary" xe-counter data-count="this" data-from="0" data-to="131" data-duration="1.5">0</div>
+	});
+
+	function updateAgeChart(idate,istartHour,iendHour){
+		$.get('https://cors-anywhere.herokuapp.com/https://iotwmw.mybluemix.net/queryagecount',{date : idate, startTime: istartHour, endTime: iendHour}).done(function(data){
+			//console.log("debug");
+			//console.log(istartHour);
+			//console.log(iendHour);
+			//console.log(processAgeChartDbDataSource(data));
+			$('#age-bar').dxChart('instance').option('dataSource', processAgeChartDbDataSource(data))
+		});	
+	};
+	
+	
+</script>
+
+<div class="row">
+	<div class="col-sm-12">
+	
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Age Chart</h3>
+				<div class="panel-options">
+					<a href="" data-toggle="panel">
+						<span class="collapse-icon">&ndash;</span>
+						<span class="expand-icon">+</span>
+					</a>
+					<a href="" data-toggle="remove">
+						&times;
+					</a>
+				</div>
 			</div>
-			<div class="col-sm-3">
-				<div id="reqs-per-second" style="height: 150px;"></div>
-			</div>
-			<div class="col-sm-6">
-				<div id="reqs-per-second-chart" style="height: 150px;"></div>
+			<div class="panel-body">	
+				<div id="age-bar" style="height: 440px; width: 100%;"></div>
 			</div>
 		</div>
-		
+			
 	</div>
 </div>
+
+<script type="text/javascript">
+	jQuery(document).ready(function($)
+	{
+		if( ! $.isFunction($.fn.dxChart))
+			return;
+			
+		$("#bubble-mood-chart").dxChart({
+			//dataSource: dataSource,
+			commonSeriesSettings: {
+				type: 'bubble'
+			},
+			//title: 'Correlation between total population, population over 60 <br/>and % of population over 60',
+			tooltip: {
+				enabled: true,
+				customizeText: function () { return 'Gender: ' + this.point.tag.toUpperCase() + '<br/>Age Range: ' + this.argumentText + ' Years <br/>Mood: ' + this.valueText + ' <br/>% of this segement: ' + parseInt(this.size * 100) + '%'; }
+			},
+			argumentAxis: {
+				/*
+				label: {
+					customizeText: function () {
+						return this.value + 'M';
+					}
+				},*/
+				title: 'Age Range'
+			},
+			valueAxis: {
+				/*
+				label: {
+					customizeText: function () {
+						return this.value + 'M';
+					}
+				},*/
+				min: 1,
+				max: 5,
+				title: 'Mood'
+			},
+			legend: {
+				position: 'inside',
+				horizontalAlignment: 'right',
+				border: {
+					visible: true
+				}
+			},
+			palette: ["#00ced1", "#008000", "#ffd700", "#ff7f50"],
+			seriesClick: function(series) {
+				series.isVisible() ? series.hide() : series.show(); 
+			},
+			series: [{
+				name: 'Male',
+				argumentField: 'malerange',
+				valueField: 'malemood',
+				sizeField: 'maleperc',
+				tagField:'maletag',
+				color: '#0e62c7'
+			}, {
+				name: 'Female',
+				argumentField: 'femalerange',
+				valueField: 'femalemood',
+				sizeField: 'femaleperc',
+				tagField: 'femaletag',
+				color: '#cc3f44'
+			},]
+		});
+
+		updateMoodChart(current_date_input,0,23);
+	});
+
+	function updateMoodChart(idate,istartHour,iendHour){
+		$.get('https://cors-anywhere.herokuapp.com/https://iotwmw.mybluemix.net/querymoodcount',{date : idate, startTime: istartHour, endTime: iendHour}).done(function(data){
+			//console.log(istartHour);
+			//console.log(iendHour);
+			//console.log(processMoodChartDbDataSource(data));
+			$('#bubble-mood-chart').dxChart('instance').option('dataSource', processMoodChartDbDataSource(data));
+		});	
+	};
+</script>
+
+<div class="row">
+	<div class="col-sm-6">
+	
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Correlation between Mood, Age and Gender </h3>
+				<div class="panel-options">
+					<a href="" data-toggle="panel">
+						<span class="collapse-icon">&ndash;</span>
+						<span class="expand-icon">+</span>
+					</a>
+					<a href="" data-toggle="remove">
+						&times;
+					</a>
+				</div>
+			</div>
+			<div class="panel-body">	
+				
+				<div id="bubble-mood-chart" style="height: 450px; width: 100%;"></div>
+			</div>
+		</div>
+			
+	</div>
+
+	<div class="col-sm-6">
+	
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Glasses</h3>
+				<div class="panel-options">
+					<a href="" data-toggle="panel">
+						<span class="collapse-icon">&ndash;</span>
+						<span class="expand-icon">+</span>
+					</a>
+					<a href="" data-toggle="remove">
+						&times;
+					</a>
+				</div>
+			</div>
+			<div class="panel-body">	
+				
+				<div id="glass-chart" style="height: 450px; width: 100%;"></div>
+			</div>
+		</div>
+			
+	</div>
+</div>
+<script type="text/javascript">
+	var xenonPalette = ['#fcd036','#68b828','#4fcdfc','#00b19d','#ff6264','#f7aa47'];
+
+	jQuery(document).ready(function($)
+	{
+		if( ! $.isFunction($.fn.dxChart))
+			return;
+			
+		var dataSource = [
+			{region: "Asia", val: 4119626293},
+			{region: "Africa", val: 1012956064},
+			{region: "Northern America", val: 344124520},
+			{region: "Latin America and the Caribbean", val: 590946440},
+			{region: "Europe", val: 727082222},
+			{region: "Oceania", val: 35104756}
+		], timer;
+		
+		$("#glass-chart").dxPieChart({
+			//dataSource: dataSource,
+			//title: "The Population of Continents and Regions",
+			/*
+			tooltip: {
+				enabled: false,
+				customizeText: function() { 
+					return this.argumentText + " :<br/>" + this.valueText;
+				}
+			},
+			*/
+			size: {
+				height: 420
+			},
+			/*
+			pointClick: function(point) {
+				point.showTooltip();
+				clearTimeout(timer);
+				timer = setTimeout(function() { point.hideTooltip(); }, 2000);
+				$("select option:contains(" + point.argument + ")").prop("selected", true);
+			},
+			legend: {
+				 horizontalAlignment: "right",
+				verticalAlignment: "top",
+				margin: 0
+			},  
+			*/
+			series: [{
+				type: "doughnut",
+				argumentField: "type",
+				label: {
+					visible: true,
+					customizeText: function (point) {
+						return point.argumentText + ": " + point.valueText ;
+					},
+					connector: {
+						visible: true
+					}
+				}
+			}],
+			palette: xenonPalette
+		});
+		
+		updateGlassesChart(current_date_input,0,23);
+	});
+
+	function updateGlassesChart(idate,istartHour,iendHour){
+		$.get('https://cors-anywhere.herokuapp.com/https://iotwmw.mybluemix.net/queryglassescount',{date : idate, startTime: istartHour, endTime: iendHour}).done(function(data){
+			//console.log(istartHour);
+			//console.log(iendHour);
+			console.log(processGlassesDbDataSource(data));
+			$('#glass-chart').dxPieChart('instance').option('dataSource', processGlassesDbDataSource(data));
+		});	
+	};
+</script>
+<div class="row">
+	
+</div>
+
+
 
 <script>
 	$("#datepicker").datepicker()
 		.on("change", function (e) {
 			//alert($(this).val());
-			updateRangeSource(formattedDateRangetoDb($(this).val()));
+			current_date_input = formattedDateRangetoDb($(this).val());
+			$('#modcam-range-chart').dxRangeSelector('instance').option('selectedRange',undefined);
+			updateRangeSource(current_date_input);
+			updateAgeChart(current_date_input, 0, 23)
+			updateMoodChart(current_date_input,0, 23);
+			updateGlassesChart(current_date_input,0,23);
 		});
 </script>
  
