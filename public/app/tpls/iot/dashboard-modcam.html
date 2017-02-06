@@ -33,16 +33,9 @@
 		var datasource_m_range = new Array();
 		console.log("idate " + idate);
 		//get female datasource
-		
-		var furl = "https://iotwmw.mybluemix.net/querysexfcount";
-		var murl = "https://iotwmw.mybluemix.net/querysexmcount";
-		
-		if(window.location.hostname == "localhost"){
-			furl = "https://cors-anywhere.herokuapp.com/" + furl;
-			murl = "https://cors-anywhere.herokuapp.com/" + murl;
-		}
 
-		$.get(furl,{date : idate}).done(function(data){
+		
+		$.get('https://cors-anywhere.herokuapp.com/https://iotwmw.mybluemix.net/querysexfcount',{date : idate}).done(function(data){
 			if(Array.isArray(data)){
 				datasource_f_range = datasource_modcam_range(idate, data, "f");
 				//$("#range-chart").dxRangeSelector('instance').option('dataSource', datasource_f_range);
