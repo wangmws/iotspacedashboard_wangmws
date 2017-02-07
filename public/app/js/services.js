@@ -84,6 +84,7 @@ angular.module('xenon.services', []).
 		this.prepareSidebarMenu = function()
 		{
 			var iot  = this.addItem('IOT Dashboard', 		'/app/iot', 					'linecons-note');
+			/*
 			var dashboard    = this.addItem('Dashboard', 		'/app/dashboard', 			'linecons-cog');
 			var layouts      = this.addItem('Layout & Skins',	'/app/layout-and-skins',	'linecons-desktop');
 			var ui_elements  = this.addItem('UI Elements', 		'/app/ui', 					'linecons-note');
@@ -94,11 +95,12 @@ angular.module('xenon.services', []).
 			var extra  	 	 = this.addItem('Extra', 			'/app/extra', 				'linecons-beaker').setLabel('New Items', 'purple');
 			var charts  	 = this.addItem('Charts', 			'/app/charts', 				'linecons-globe');
 			var menu_lvls  	 = this.addItem('Menu Levels', 		'', 						'linecons-cloud');
-
+			*/
 				// Subitems of IOT Dashboard
 				iot.addItem('Room Sensor', 	'-/dashboard-room'); // "-/" will append parents link
 				iot.addItem('ModCam', 	'-/dashboard-modcam'); // "-/" will append parents link
 
+				/*
 				// Subitems of Dashboard
 				dashboard.addItem('Dashboard 1', 	'-/variant-1'); // "-/" will append parents link
 				dashboard.addItem('Dashboard 2', 	'-/variant-2');
@@ -210,7 +212,7 @@ angular.module('xenon.services', []).
 						// Sub Level 3
 						menu_lvl2.addItem('Menu Item 3.1');
 						menu_lvl2.addItem('Menu Item 3.2');
-
+				*/
 
 			return this;
 		};
