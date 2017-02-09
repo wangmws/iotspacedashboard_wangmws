@@ -101,6 +101,11 @@ function processAgeChartDbDataSource(array){
     var f0 = 0, f1 = 0, f2 = 0; f3 = 0, f4 = 0, f5 = 0, f6 = 0, f7 = 0, f8 = 0, f9 = 0, f10 = 0, f11 = 0, f12 = 0, f13 = 0, f14 = 0, f15 = 0, f16 = 0, f17 = 0, f18 = 0, f19 = 0;
     var ageChart_array = new Array();
 
+    //if single result
+    if(array != "" && !Array.isArray(array)){
+        array = [array];
+    }
+
     if(Array.isArray(array)){
         var icount = 0;
         //console.log("test");
@@ -254,9 +259,10 @@ function processMoodChartDbDataSource(array){
     var moodChart_array = new Array();
     var icount = 0;
     
-
-    
-
+    //if single result
+    if(array != "" && !Array.isArray(array)){
+        array = [array];
+    }
 
     if(Array.isArray(array)){
         var total_count = array.length;
