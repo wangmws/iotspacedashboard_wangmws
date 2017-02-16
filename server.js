@@ -4,6 +4,7 @@ var server = require("http").Server(app);
 var io = require("socket.io")(server);
 var iotf = require('ibmiotf');
 var db = require("./routes/db.js");
+var bodyParser = require('body-parser');
 var appConfig;
 
 // cfenv provides access to your Cloud Foundry environment
@@ -91,7 +92,12 @@ server.listen(serverPort, serverHost, function() {
 io.on("connection", function (socket) {
    
     db.HomeWeatherQuery(24, function(result){
-        socket.emit("sensorObj_array", result); 
+        socket.emit("sensorObj_array", result);
+        console.log(result);
+    });
+
+    socket.on('test', function (data) {  
+    console.log(data);
     });
 });
 
@@ -100,4 +106,98 @@ io.on("connection", function () {
 
 });
 
+
+//HTTP Get Request
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json()); // Body parser use JSON data
+
+app.get('/querysexfcount',function(req,res){
+    try{
+            db.querysexfcount(req.query,function(data){
+                 res.send(data);
+            });
+        
+    } catch (err) {
+        console.log(err);
+    }
+
+});
+
+app.get('/querysexmcount',function(req,res){
+    console.log("querysexmcount here");
+    try{
+            db.querysexmcount(req.query,function(data){
+                res.send(data);
+            });
+        
+    } catch (err) {
+        console.log(err);
+    }
+
+});
+
+app.get('/queryagecount',function(req,res){
+    console.log("queryagecount here");
+    try{
+            db.queryagecount(req.query,function(data){
+                res.send(data);
+            });
+        
+    } catch (err) {
+        console.log(err);
+    }
+
+});
+
+app.get('/querymoodcount',function(req,res){
+    console.log("querymoodcount here");
+    try{
+            db.querymoodcount(req.query,function(data){
+                res.send(data);
+            });
+        
+    } catch (err) {
+        console.log(err);
+    }
+
+});
+
+app.get('/queryglassescount',function(req,res){
+    console.log("queryglassescount here");
+    try{
+            db.queryglassescount(req.query,function(data){
+                res.send(data);
+            });
+        
+    } catch (err) {
+        console.log(err);
+    }
+
+});
+
+app.get('/queryusercountselection',function(req,res){
+    console.log("queryusercountselection here");
+    try{
+            db.queryusercountselection(req.query,function(data){
+                res.send(data);
+            });
+        
+    } catch (err) {
+        console.log(err);
+    }
+
+});
+
+app.get('/queryusercounttotal',function(req,res){
+    console.log("queryusercounttotal here");
+    try{
+            db.queryusercounttotal(req.query,function(data){
+                res.send(data);
+            });
+        
+    } catch (err) {
+        console.log(err);
+    }
+
+});
 

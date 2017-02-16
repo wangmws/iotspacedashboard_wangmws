@@ -361,20 +361,21 @@ function processMoodChartDbDataSource(array){
 }
 
 function processGlassesDbDataSource(array){
-    
+    console.log(array);
     var glassesChart_array = new Array();
     var icount = 0;
-  
+    
     //{type: "Glasses", val: 1}
-    console.log("Glasses : " + array.TOTAL_GLASSES);
+    console.log("Glasses : " + array[0].TOTAL_GLASSES);
+    console.log(typeof array[0].TOTAL_COUNT);
     
     try{
-        if(!(array.TOTAL_GLASSES === null)){
-            glassesChart_array.push({type: "Glasses", val: parseInt(array.TOTAL_GLASSES)});
-            glassesChart_array.push({type: "No Glasses", val: array.TOTAL_COUNT - array.TOTAL_GLASSES});
+        if(!(array[0].TOTAL_GLASSES === null)){
+            glassesChart_array.push({type: "Glasses", val: parseInt(array[0].TOTAL_GLASSES)});
+            glassesChart_array.push({type: "No Glasses", val: array[0].TOTAL_COUNT - array[0].TOTAL_GLASSES});
         } else if (!(array.TOTAL_COUNT === null)){
-            glassesChart_array.push({type: "No Glasses", val: parseInt(array.TOTAL_COUNT)});
-        }
+            glassesChart_array.push({type: "No Glasses", val: parseInt(array[0].TOTAL_COUNT)});
+        } 
     }
     catch(err){
         console.log(err);

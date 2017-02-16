@@ -36,14 +36,14 @@
 		//get female datasource
 
 		
-		$.get('https://cors-anywhere.herokuapp.com/https://iotwmw.mybluemix.net/querysexfcount',{date : idate}).done(function(data){
+		$.get(window.location.origin + '/querysexfcount',{date : idate}).done(function(data){
 			if(!Array.isArray(data))
 					data = [data];
 
 			datasource_f_range = datasource_modcam_range(idate, data, "f");
 			
 			//get male datasource
-			$.get('https://cors-anywhere.herokuapp.com/https://iotwmw.mybluemix.net/querysexmcount',{date : idate}).done(function(data){
+			$.get(window.location.origin + '/querysexmcount',{date : idate}).done(function(data){
 				
 				if(!Array.isArray(data))
 					data = [data];
@@ -200,9 +200,9 @@
 	function udpateUserAddWidget(idate, istartHour, iendHour){
 			//daily-added total-added queryusercountselection queryusercounttotal
 			
-			$.get('https://cors-anywhere.herokuapp.com/https://iotwmw.mybluemix.net/queryusercountselection',{date : idate, startTime: istartHour, endTime: iendHour}).done(function(data){
+			$.get(window.location.origin + '/queryusercountselection',{date : idate, startTime: istartHour, endTime: iendHour}).done(function(data){
 				try{
-					jQuery("#daily-added")[0].innerText = data.ALLTOTAL  + " People";
+					jQuery("#daily-added")[0].innerText = data[0].ALLTOTAL  + " People";
 				} 
 				catch(err)
 				{
@@ -212,9 +212,9 @@
 				
 			});
 
-			$.get('https://cors-anywhere.herokuapp.com/https://iotwmw.mybluemix.net/queryusercounttotal',{date : idate, startTime: istartHour, endTime: iendHour}).done(function(data){
+			$.get(window.location.origin + '/queryusercounttotal',{date : idate}).done(function(data){
 				try{
-					jQuery("#total-added")[0].innerText = data.ALLTOTAL + " People";
+					jQuery("#total-added")[0].innerText = data[0].ALLTOTAL + " People";
 				} 
 				catch(err)
 				{
@@ -330,7 +330,7 @@
 	});
 
 	function updateAgeChart(idate,istartHour,iendHour){
-		$.get('https://cors-anywhere.herokuapp.com/https://iotwmw.mybluemix.net/queryagecount',{date : idate, startTime: istartHour, endTime: iendHour}).done(function(data){
+		$.get(window.location.origin + '/queryagecount',{date : idate, startTime: istartHour, endTime: iendHour}).done(function(data){
 			//console.log("debug");
 			//console.log(istartHour);
 			//console.log(iendHour);
@@ -434,7 +434,7 @@
 	});
 
 	function updateMoodChart(idate,istartHour,iendHour){
-		$.get('https://cors-anywhere.herokuapp.com/https://iotwmw.mybluemix.net/querymoodcount',{date : idate, startTime: istartHour, endTime: iendHour}).done(function(data){
+		$.get(window.location.origin + '/querymoodcount',{date : idate, startTime: istartHour, endTime: iendHour}).done(function(data){
 			//console.log(istartHour);
 			//console.log(iendHour);
 			//console.log(processMoodChartDbDataSource(data));
@@ -540,10 +540,9 @@
 	});
 
 	function updateGlassesChart(idate,istartHour,iendHour){
-		$.get('https://cors-anywhere.herokuapp.com/https://iotwmw.mybluemix.net/queryglassescount',{date : idate, startTime: istartHour, endTime: iendHour}).done(function(data){
+		$.get(window.location.origin + '/queryglassescount',{date : idate, startTime: istartHour, endTime: iendHour}).done(function(data){
 			//console.log(istartHour);
 			//console.log(iendHour);
-			console.log(processGlassesDbDataSource(data));
 			$('#glass-chart').dxPieChart('instance').option('dataSource', processGlassesDbDataSource(data));
 		});	
 	};
