@@ -111,8 +111,17 @@
 	socket_current.on("IBM_Tag", function(sensorObj) { 
 		ibmTag = sensorObj;
 		ibmTagCurrent = sensorObj.d.tag;
-		//console.log(ibmTagCurrent);
-		jQuery("#ibm-tag")[0].innerText = ibmTagCurrent;
+		console.log(ibmTagCurrent);
+		if(ibmTagCurrent == "Projector"){
+			console.log(jQuery("#Projector-count")[0].innerText);
+			if (jQuery("#Projector-count")[0].innerText == "0")
+				jQuery("#Projector-count")[0].innerText = "1";
+			else
+				jQuery("#Projector-count")[0].innerText = "0";
+		}
+		else{ 
+			jQuery("#ibm-tag")[0].innerText = ibmTagCurrent;
+		}
 	});
 
 	
@@ -580,9 +589,8 @@
 	</div>
 	
 	
-</div>
 
-<div class="row">
+
 	<div class="col-sm-6">
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -601,29 +609,25 @@
 					<table class="table table-bordered table-striped">
 						<thead>
 							<tr>
-								<th></th>
-								<th>Rooms</th>
-								<th>Store Rooms</th>
+								<th>Equipment</th>
+								<th>In Rooms</th>
 							</tr>
 						</thead>
 						
 						<tbody>
 							<tr>
 								<td>Projector</td>
-								<td>5</td>
-								<td>3</td>
+								<td id="Projector-count">0</td>
 							</tr>
 							
 							<tr>
 								<td>Flip chart</td>
-								<td>2</td>
-								<td>4</td>
+								<td>1</td>
 							</tr>
 							
 							<tr>
 								<td>Chairs</td>
-								<td>43</td>
-								<td>7</td>
+								<td>5</td>
 							</tr>
 						</tbody>
 					</table>
