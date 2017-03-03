@@ -68,7 +68,19 @@ server.listen(serverPort, serverHost, function() {
             } catch(err){
                 console.log(err);
             }
- 
+        }
+
+        if(deviceType == "MOD01"){
+            
+            try{
+                sensorObj = JSON.parse(payload);
+                io.emit("ModCam", sensorObj);
+                console.log(sensorObj);
+                
+            } catch(err){
+                console.log(err);
+            }
+        }
             
 
             /*
@@ -83,7 +95,7 @@ server.listen(serverPort, serverHost, function() {
             console.log(roomSensor.Temperature);
             */
 
-        }
+        
     });
 });
 

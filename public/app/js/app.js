@@ -31,7 +31,7 @@ app.run(function()
 
 app.config(function($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, ASSETS){
 
-	$urlRouterProvider.otherwise('/app/iot-dashboard-rooms');
+	$urlRouterProvider.otherwise('/app/iot-dashboard-room');
 
 	$stateProvider.
 		// Main Layout Structure
@@ -48,24 +48,6 @@ app.config(function($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, ASS
 		}).
 
 		//IOT Dashboards
-		state('app.iot-dashboard-rooms', {
-			url: '/iot-dashboard-rooms',
-			templateUrl: appHelper.templatePath('iot/dashboard-rooms'),
-			resolve: {
-				resources: function($ocLazyLoad){
-					return $ocLazyLoad.load([
-						ASSETS.charts.dxGlobalize,
-						ASSETS.extra.toastr,
-					]);
-				},
-				dxCharts: function($ocLazyLoad){
-					return $ocLazyLoad.load([
-						ASSETS.charts.dxCharts,
-					]);
-				},
-			}
-		}).
-
 		state('app.iot-dashboard-room', {
 			url: '/iot-dashboard-room',
 			templateUrl: appHelper.templatePath('iot/dashboard-room'),

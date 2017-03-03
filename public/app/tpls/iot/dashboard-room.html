@@ -106,24 +106,6 @@
 		timestamp_current = sensorObj.ts.slice(11,18);
 	});
 
-	var ibmTag, ibmTagCurrent;
-
-	socket_current.on("IBM_Tag", function(sensorObj) { 
-		ibmTag = sensorObj;
-		ibmTagCurrent = sensorObj.d.tag;
-		console.log(ibmTagCurrent);
-		if(ibmTagCurrent == "Projector"){
-			console.log(jQuery("#Projector-count")[0].innerText);
-			if (jQuery("#Projector-count")[0].innerText == 0)
-				jQuery("#Projector-count")[0].innerText = "1";
-			else
-				jQuery("#Projector-count")[0].innerText = "0";
-		}
-		else{ 
-			jQuery("#ibm-tag")[0].innerText = ibmTagCurrent;
-		}
-	});
-
 	
 		setTimeout(function()
 		{	
@@ -308,7 +290,7 @@
 			if(sensorMotion_current == 0)
 				jQuery("#motionText")[0].innerText = "Emtpy";
 			else
-				jQuery("#motionText")[0].innerText = "Occupied";
+				jQuery("#motionText")[0].innerText = "People Around";
 		}
 
 		function presence_avgUpdate(){
@@ -431,76 +413,7 @@
 </script>
 
 <div class="row">
-	<div class="col-sm-6">
-	
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">Room Utilization</h3>
-				<div class="panel-options">
-					<a href="" data-toggle="panel">
-						<span class="collapse-icon">&ndash;</span>
-						<span class="expand-icon">+</span>
-					</a>
-					<a href="" data-toggle="remove">
-						&times;
-					</a>
-				</div>
-			</div>
-			<div class="panel-body">
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		
-				<img src="assets/images/roomutil.jpg" />
-			</div>
-		</div>
-	</div>
-
 	<div class="col-sm-3">
-		<div>&nbsp;</div>
-		<div class="xe-widget xe-counter-block xe-counter-block-blue" >
-			<div class="xe-upper">
-				
-				<div class="xe-icon">
-					<i class="linecons-user"></i>
-				</div>
-				<div class="xe-label">
-					<strong id="ibm-tag" >--</strong>
-					<span>In Room</span>
-				</div>
-			</div>
-			<div class="xe-lower">
-				<div class="border"></div>
-				<span> </span>
-				<strong id="ibm-tag-a"></strong>
-			</div>
-		</div>
-	</div>
-	
-	<div class="col-sm-3">
-		<div>&nbsp;</div>
-		<div class="xe-widget xe-counter-block xe-counter-block-blue" >
-			<div class="xe-upper">
-				
-				<div class="xe-icon">
-					<i class="linecons-user"></i>
-				</div>
-				<div class="xe-label">
-					<strong id="motionText" >--</strong>
-					<span>Presence</span>
-				</div>
-				
-			</div>
-			<div class="xe-lower">
-				<div class="border"></div>
-				
-				<span>Occpancy</span>
-				<strong id="presence_avg">--%</strong>
-			</div>
-		</div>
-		
-	</div>
-
-		
-
-	<div class="col-sm-6">
 		<canvas 
 			id="TemperatureGauge"
 			data-title="Temperature"
@@ -528,6 +441,10 @@
 			data-animation-duration="1500"
 			data-animation-rule="cycle"
 		></canvas>
+		
+		
+	</div>
+	<div class="col-sm-3">
 		<canvas 
 			id="HumidityGauge"
 			data-title="Humidity"
@@ -556,6 +473,10 @@
 			data-animation-duration="1500"
 			data-animation-rule="cycle"
 		></canvas>
+		
+		
+	</div>
+	<div class="col-sm-3">
 		<canvas 
 			id="LightGauge"
 			data-title="Light"
@@ -587,54 +508,354 @@
 		
 		
 	</div>
-	
-	
-
-
-	<div class="col-sm-6">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">Inventory Overview</h3>
-				<div class="panel-options">
-					<a href="" data-toggle="panel">
-						<span class="collapse-icon">&ndash;</span>
-						<span class="expand-icon">+</span>
-					</a>
-					<a href="" data-toggle="remove">
-						&times;
-					</a>
+	<div class="col-sm-3">
+		<div>&nbsp;</div>
+		<div class="xe-widget xe-counter-block xe-counter-block-blue" >
+			<div class="xe-upper">
+				
+				<div class="xe-icon">
+					<i class="linecons-user"></i>
 				</div>
+				<div class="xe-label">
+					<strong id="motionText" >--</strong>
+					<span>Presence</span>
+				</div>
+				
 			</div>
-			<div class="panel-body">
-					<table class="table table-bordered table-striped">
-						<thead>
-							<tr>
-								<th>Equipment</th>
-								<th>In Rooms</th>
-							</tr>
-						</thead>
-						
-						<tbody>
-							<tr>
-								<td>Projector</td>
-								<td id="Projector-count">0</td>
-							</tr>
-							
-							<tr>
-								<td>Flip chart</td>
-								<td>1</td>
-							</tr>
-							
-							<tr>
-								<td>Chairs</td>
-								<td>5</td>
-							</tr>
-						</tbody>
-					</table>
-					
-				</div>
+			<div class="xe-lower">
+				<div class="border"></div>
+				
+				<span>Occpancy</span>
+				<strong id="presence_avg">--%</strong>
+			</div>
 		</div>
+		
+	</div>
+	
 </div>
 
 
+<div class="row">
+	<div class="col-sm-6">
+	
+		<div class="panel panel-default">
+			<div class="panel-body">	
+				
+				<div id="bar-3" style="height: 400px; width: 80%;"></div>
+			</div>
+		</div>
+
+<script>
+//{ valueField: "Temperature", name: "Temperature", color: "#40bbea" },
+//{ valueField: "Humidity", name: "Humidity", color: "#8dc63f" },
+
+	// Sparklines
+	var temp_day_chart = {
+		argumentField: 'PAYLOAD_TS',
+		valueField: 'PAYLOAD_D_TEMPERATURE',
+		type: 'splinearea',
+		showMinMax: true,
+		lineColor: '#40bbea',
+		minColor: '#4fcdfc',
+		maxColor: '#d5080f',
+		showFirstLast: true
+	},
+	humid_day_chart = {
+		argumentField: 'PAYLOAD_TS',
+		valueField: 'PAYLOAD_D_HUMIDITY',
+		type: 'splinearea',
+		//lineWidth: 3,
+		lineColor: '#8dc63f',
+		minColor: '#4fcdfc',
+		maxColor: '#d5080f',
+		showMinMax: true,
+		showFirstLast: true
+	};
+
+
+
+		$('.sparkline_temp').dxSparkline(temp_day_chart);
+		$('.sparkline_humid').dxSparkline(humid_day_chart);
+</script>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">This Daily Analytics</div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Type</th>
+						<th width="20%">Avg</th>
+						<th width="50%">Daily Chart</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Temperature</td>
+						<td id="temp_chart_avg">--&deg;</td>
+						<td>
+							<div class="sparkline_temp"></div>
+						</td>
+					</tr>
+					<tr>
+						<td>Humidity</td>
+						<td id="humid_chart_avg">--%</td>
+						<td>
+							<div class="sparkline_humid"></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+			
+	</div>
+	<div class="col-sm-6">
+		
+		<div class="chart-item-bg">
+			<div class="chart-label">
+				<div id="network-mbs-packets" class="h1 text-purple text-bold" xe-counter data-count="this" data-from="0.00" data-to="0.00" data-suffix="LUX" data-duration="1">0.00LUX</div>
+				<span class="text-small text-muted text-upper">Light</span>
+			</div>
+			<div class="chart-right-legend">
+				<div id="network-realtime-gauge" style="width: 170px; height: 140px"></div>
+			</div>
+			<div id="realtime-network-stats" style="height: 320px"></div>
+		</div>
+<script>
+	var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+ 	var c_date = new Date();
+ 	var c_date_text = "Today , " + c_date.getDate() + ' ' + months[c_date.getMonth()];
+ 	$('#current_date')[0].innerText = c_date_text;
+
+</script>
+		<div class="xe-widget xe-weather">
+			<div class="xe-background xe-background-animated">
+				<img src="assets/images/clouds.png" />
+			</div>
+			
+			<div class="xe-current-day">
+				<div class="xe-now">
+					<div class="xe-temperature">
+						<div class="xe-icon">
+							<i class="meteocons-cloud-moon"></i>
+						</div>
+						<div class="xe-label">
+							Now
+							<strong>30&deg;</strong>
+						</div>
+					</div>
+					<div class="xe-location">
+						<h4>Singapore</h4>
+						<time id="current_date"></time>
+					</div>
+				</div>
+				
+				<div class="xe-forecast">
+					<ul>
+						<li>
+							<div class="xe-forecast-entry">
+								<time>11:00</time>
+								<div class="xe-icon">
+									<i class="meteocons-sunrise"></i>
+								</div>
+								<strong class="xe-temp">28&deg;</strong>
+							</div>
+						</li>
+						<li>
+							<div class="xe-forecast-entry">
+								<time>12:00</time>
+								<div class="xe-icon">
+									<i class="meteocons-clouds-flash"></i>
+								</div>
+								<strong class="xe-temp">30&deg;</strong>
+							</div>
+						</li>
+						<li>
+							<div class="xe-forecast-entry">
+								<time>13:00</time>
+								<div class="xe-icon">
+									<i class="meteocons-cloud-moon-inv"></i>
+								</div>
+								<strong class="xe-temp">31&deg;</strong>
+							</div>
+						</li>
+						<li>
+							<div class="xe-forecast-entry">
+								<time>14:00</time>
+								<div class="xe-icon">
+									<i class="meteocons-eclipse"></i>
+								</div>
+								<strong class="xe-temp">31&deg;</strong>
+							</div>
+						</li>
+						<li>
+							<div class="xe-forecast-entry">
+								<time>15:00</time>
+								<div class="xe-icon">
+									<i class="meteocons-rain"></i>
+								</div>
+								<strong class="xe-temp">30&deg;</strong>
+							</div>
+						</li>
+						<li>
+							<div class="xe-forecast-entry">
+								<time>16:00</time>
+								<div class="xe-icon">
+									<i class="meteocons-cloud-sun"></i>
+								</div>
+								<strong class="xe-temp">28&deg;</strong>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			
+			<div class="xe-weekdays">
+				<ul class="list-unstyled">
+					<li>
+						<div class="xe-weekday-forecast">
+							<div class="xe-temp">30&deg;</div>
+							<div class="xe-day">Monday</div>
+							<div class="xe-icon">
+								<i class="meteocons-windy-inv"></i>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="xe-weekday-forecast">
+							<div class="xe-temp">32&deg;</div>
+							<div class="xe-day">Tuesday</div>
+							<div class="xe-icon">
+								<i class="meteocons-sun"></i>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="xe-weekday-forecast">
+							<div class="xe-temp">30&deg;</div>
+							<div class="xe-day">Wednesday</div>
+							<div class="xe-icon">
+								<i class="meteocons-na"></i>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="xe-weekday-forecast">
+							<div class="xe-temp">31&deg;</div>
+							<div class="xe-day">Thursday</div>
+							<div class="xe-icon">
+								<i class="meteocons-windy"></i>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="xe-weekday-forecast">
+							<div class="xe-temp">30&deg;</div>
+							<div class="xe-day">Friday</div>
+							<div class="xe-icon">
+								<i class="meteocons-sun"></i>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			
+		</div>
+		<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Room Occupancy Weekly Chart</h3>
+					<div class="panel-options">
+						<a href="" data-toggle="panel">
+							<span class="collapse-icon">&ndash;</span>
+							<span class="expand-icon">+</span>
+						</a>
+						<a href="" data-toggle="remove">
+							&times;
+						</a>
+					</div>
+				</div>
+				<div class="panel-body">	
+				<script type="text/javascript">
+					jQuery(document).ready(function($)
+					{
+						if( ! $.isFunction($.fn.dxChart))
+							return;
+							
+						var dataSource = [
+							{ day: "Mon", occ: .83, book: .9},
+							{ day: "Tue", occ: .24, book: .85},
+							{ day: "Wed", occ: .1, book: .72},
+							{ day: "Fri", occ: .76, book: .65},
+							{ day: "Sat", occ: .39, book: .12},
+							{ day: "Sun", occ: .15, book: .0}
+						];
+						
+						$("#bar-2").dxChart({
+							equalBarWidth: false,
+							dataSource: dataSource,
+							commonSeriesSettings: {
+								argumentField: "day",
+								type: "bar"
+							},
+							series: [
+								{ valueField: "occ", name: "Occupied", color: "#0e62c7" },
+								{
+									axis: "Room Booked",
+									type: "spline",
+									valueField: "book",
+									name: "Room Booked",
+									color: "#8dc63f"
+								}
+								//{ valueField: "book", name: "Room Booked", color: "#8dc63f" }
+							],
+							legend: {
+								verticalAlignment: "bottom",
+								horizontalAlignment: "center"
+							},
+							valueAxis:[
+								{
+									label: {
+										format: "percent"
+										}
+								},
+								{
+									name: "Room Booked",
+									label: {
+										visible: false
+									}
+								}
+							],
+							tooltip: {
+								enabled: true,
+								shared: true,
+								format: {
+									type: "percent",
+                					precision: 1
+								},
+								customizeTooltip: function (arg) {
+									var items = arg.valueText.split("\n"),
+										color = arg.point.getColor();
+									$.each(items, function(index, item) {
+										if(item.indexOf(arg.seriesName) === 0) {
+											items[index] = $("<b>")
+															.text(item)
+															.css("color", color)
+															.prop("outerHTML");
+										}
+									});
+									return { text: items.join("\n") };
+								}
+							}
+						});
+					});
+				</script>
+				<div id="bar-2" style="height: 400px; width: 100%;"></div>
+			</div>
+		</div>
+		
+	</div>
+	
+</div>
+<script>
+	socket_current.emit('test', { my: 'data' });
+</script>
 
