@@ -81,6 +81,18 @@ server.listen(serverPort, serverHost, function() {
                 console.log(err);
             }
         }
+
+        if(deviceId == "IBM_Tag"){
+            
+            try{
+                sensorObj = JSON.parse(payload);
+                io.emit("IBM_Tag", sensorObj);
+                console.log(sensorObj);
+                
+            } catch(err){
+                console.log(err);
+            }
+        }
             
 
             /*

@@ -31,7 +31,7 @@ app.run(function()
 
 app.config(function($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, ASSETS){
 
-	$urlRouterProvider.otherwise('/app/iot-dashboard-room');
+	$urlRouterProvider.otherwise('/app/iot-dashboard-rooms');
 
 	$stateProvider.
 		// Main Layout Structure
