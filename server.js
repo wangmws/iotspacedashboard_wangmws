@@ -69,6 +69,7 @@ server.listen(serverPort, serverHost, function() {
                 console.log(err);
             }
 <<<<<<< HEAD
+<<<<<<< HEAD
         }
 
         if(deviceType == "MOD01"){
@@ -94,6 +95,9 @@ server.listen(serverPort, serverHost, function() {
                 console.log(err);
             }
         }
+=======
+ 
+>>>>>>> parent of 594f917... first version of live feed
 =======
  
 >>>>>>> parent of 594f917... first version of live feed
