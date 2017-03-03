@@ -23,52 +23,6 @@
 </script>
 
 <script type="text/javascript">
-	var ModCam_current;
-	
-	//get current sensor reading
-	
-	
-	/* Test HTTP Get
-	$.get('https://cors-anywhere.herokuapp.com/http://iotwmw.mybluemix.net/test',{x1 : "10"}).done(function(data){
-		console.log(data);
-	});
-	*/
-
-	var socket_current = io.connect();
-	socket_current.on("ModCam", function(ModCamObj) { 
-		ModCam_current = ModCamObj;
-		console.log(ModCamObj);
-		$('#ModCamPanel')[0].innerText = $('#ModCamPanel')[0].innerText + "\r\n" + JSON.stringify(ModCam_current);
-	});
-</script>
-
-<div class="row">
-	<div class="col-sm-12">
-		
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">ModCam Live Data Feed</h3>
-				<div class="panel-options">
-					<a href="" data-toggle="panel">
-						<span class="collapse-icon">&ndash;</span>
-						<span class="expand-icon">+</span>
-					</a>
-					<a href="" data-toggle="remove">
-						&times;
-					</a>
-				</div>
-			</div>
-			<div class="panel-body">
-				<div class="scrollable" id="ModCamPanel" data-max-height="400">
-				</div>
-				
-			</div>
-		</div>
-	
-	</div>
-</div>
-
-<script type="text/javascript">
 	var current_date_input = formattedDateDb(new Date())
 	var current_start_hour = 0, current_end_hour = 23;
 	//console.log("new date :" + date_input)

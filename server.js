@@ -68,6 +68,7 @@ server.listen(serverPort, serverHost, function() {
             } catch(err){
                 console.log(err);
             }
+<<<<<<< HEAD
         }
 
         if(deviceType == "MOD01"){
@@ -93,6 +94,9 @@ server.listen(serverPort, serverHost, function() {
                 console.log(err);
             }
         }
+=======
+ 
+>>>>>>> parent of 594f917... first version of live feed
             
 
             /*
@@ -107,7 +111,7 @@ server.listen(serverPort, serverHost, function() {
             console.log(roomSensor.Temperature);
             */
 
-        
+        }
     });
 });
 
